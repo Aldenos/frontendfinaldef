@@ -1,0 +1,31 @@
+.breadcrumb-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  margin-bottom: 24px; /* Espaciado hacia abajo */
+  font-family: 'Ubuntu', sans-serif;
+}
+
+.breadcrumb-link {
+  color: #7C5CBF; /* Morado para links clickeables */
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.breadcrumb-link:hover {
+  color: #5d4294; /* Morado más oscuro al pasar el mouse */
+  text-decoration: underline;
+}
+
+.breadcrumb-current {
+  color: #4A4A4A; /* Gris oscuro para la página actual */
+  font-weight: 600;
+}
+
+.breadcrumb-separator {
+  color: #A0A0A0; /* Gris claro para el separador */
+  font-weight: 500;
+  margin: 0 2px;
+}

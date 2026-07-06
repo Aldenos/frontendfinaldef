@@ -1,0 +1,14 @@
+.app-layout {
+  display: flex;
+  min-height: 100vh;
+  background-color: #F8F9FA; /* Color de fondo claro */
+}
+
+.app-main {
+  flex: 1;
+  /* El margen izquierdo debe ser igual al ancho del sidebar */
+  margin-left: 260px; 
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}

@@ -1,0 +1,32 @@
+.page { padding: 40px 48px; max-width: 1200px; }
+
+.page-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 36px; }
+.page-title { font-size: 32px; font-weight: 700; color: #372F4C; margin: 0 0 6px; }
+.page-subtitle { color: #8A859E; font-size: 14px; margin: 0; }
+
+.btn-primary { background: #7C5CBF; color: white; border: none; padding: 12px 24px; border-radius: 8px; font-weight: 700; font-size: 14px; cursor: pointer; font-family: 'Ubuntu', sans-serif; transition: background .2s; }
+.btn-primary:hover { background: #9B7FD4; }
+
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px; }
+
+.card { background: white; border-radius: 12px; padding: 28px; box-shadow: 0 2px 16px rgba(0,0,0,0.07); border: 1.5px solid #EAEAEA; cursor: pointer; transition: all .2s; }
+.card:hover { transform: translateY(-3px); box-shadow: 0 8px 28px rgba(124,92,191,0.15); border-color: #C4B5D9; }
+
+.card-icon { font-size: 32px; margin-bottom: 12px; }
+.card-title { font-size: 18px; font-weight: 700; color: #372F4C; margin: 0 0 8px; }
+.card-desc { font-size: 13px; color: #8A859E; margin: 0 0 20px; line-height: 1.5; min-height: 40px; }
+.card-footer { display: flex; justify-content: space-between; align-items: center; }
+
+.badge { background: #F0EBFF; color: #7C5CBF; font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 99px; }
+.link-hint { color: #7C5CBF; font-size: 13px; font-weight: 600; }
+
+.empty-state { text-align: center; padding: 80px 40px; }
+.empty-icon { font-size: 64px; }
+.empty-state h2 { font-size: 22px; font-weight: 700; color: #372F4C; margin: 16px 0 8px; }
+.empty-state p { color: #8A859E; font-size: 14px; margin-bottom: 24px; }
+
+.loading-wrap { display: flex; flex-direction: column; align-items: center; padding: 80px; gap: 16px; color: #8A859E; }
+.loader { width: 36px; height: 36px; border: 3px solid #EAEAEA; border-top-color: #7C5CBF; border-radius: 50%; animation: spin .8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.alert-error { background: #FFF0EE; border: 1px solid #F5C6C0; color: #C0392B; padding: 14px 18px; border-radius: 8px; font-size: 13px; }

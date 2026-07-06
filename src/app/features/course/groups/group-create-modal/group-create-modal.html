@@ -1,0 +1,29 @@
+<div class="backdrop" (click)="close()">
+  <div class="modal" (click)="$event.stopPropagation()">
+    <h2 class="modal-title">Nuevo Grupo</h2>
+
+    <div class="field">
+      <label>Nombre del Grupo *</label>
+      <input type="text" [ngModel]="name()" (ngModelChange)="name.set($event)"
+             placeholder="Ej: Grupo A" />
+    </div>
+
+    <div class="field">
+      <label>Código *</label>
+      <input type="text" [ngModel]="code()" (ngModelChange)="code.set($event.toUpperCase())"
+             placeholder="Ej: CC23" maxlength="10" />
+      <span class="hint">El código identifica al grupo (letras y números, único).</span>
+    </div>
+
+    @if (error()) {
+      <p class="error">{{ error() }}</p>
+    }
+
+    <div class="actions">
+      <button class="btn-cancel" (click)="close()" [disabled]="loading()">Cancelar</button>
+      <button class="btn-primary" (click)="submit()" [disabled]="loading()">
+        {{ loading() ? 'Creando...' : 'Crear Grupo' }}
+      </button>
+    </div>
+  </div>
+</div>

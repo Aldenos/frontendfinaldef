@@ -1,0 +1,61 @@
+<section class="page">
+
+  <nav class="breadcrumb">
+    <button class="back-btn" (click)="goBack()">← Colección</button>
+    <span class="sep">/</span>
+    <span class="current">{{ topicName() || 'Tema ' + topicId() }}</span>
+  </nav>
+
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Actividades del Tema</h1>
+      <p class="page-subtitle">Gestiona los quizzes y flashcards de este tema</p>
+    </div>
+    <button class="btn-primary" (click)="showCreateModal.set(true)">+ Nueva Actividad</button>
+  </div>
+
+  @if (loading()) {
+    <div class="loading-wrap"><span class="loader"></span><p>Cargando actividades...</p></div>
+  } @else if (error()) {
+    <div class="alert-error">{{ error() }}</div>
+  } @else if (activities().length === 0) {
+    <div class="empty-state">
+      <span class="empty-icon">⚡</span>
+      <h2>Sin actividades aún</h2>
+      <p>Crea tu primer quiz o flashcard para este tema.</p>
+      <button class="btn-primary" (click)="showCreateModal.set(true)">Crear actividad</button>
+    </div>
+  } @else {
+    <div class="activity-list">
+      @for (act of activities(); track act.id) {
+        <div class="activity-row">
+          <div class="act-left">
+            <span class="act-badge" [class]="typeClass(act.type)">{{ typeLabel(act.type) }}</span>
+            <div class="act-info">
+              <span class="act-title">{{ act.title }}</span>
+              @if (act.generatedByAi) {
+                <span class="ai-tag">🤖 Generado con IA</span>
+              }
+            </div>
+          </div>
+          <div class="act-right">
+            <span class="status-badge" [class.published]="act.status === 'PUBLISHED'">
+              {{ act.status === 'PUBLISHED' ? 'Publicado' : 'Borrador' }}
+            </span>
+            <button class="btn-delete" (click)="deleteActivity(act.id!, $event)">🗑</button>
+          </div>
+        </div>
+      }
+    </div>
+  }
+
+  @if (showCreateModal()) {
+    <app-activity-create-modal
+      [topicId]="topicId()"
+      [topicName]="topicName()"
+      (saved)="onActivityCreated($event)"
+      (cancelled)="showCreateModal.set(false)">
+    </app-activity-create-modal>
+  }
+
+</section>

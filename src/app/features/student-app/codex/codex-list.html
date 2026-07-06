@@ -1,0 +1,38 @@
+<div class="codex-wrap">
+  <div class="codex-header">
+    <h1>The Codex</h1>
+    <button class="join-btn" (click)="openJoinModal()">+ Unirme con código</button>
+  </div>
+  <p class="muted">Explora tus colecciones de estudio y temas disponibles</p>
+
+  @if (loading()) {
+    <p class="muted">Cargando colecciones...</p>
+  } @else if (collections().length === 0) {
+    <p class="muted">Aún no estás inscrito en ninguna colección. Usa un código para unirte.</p>
+  } @else {
+    <div class="grid">
+      @for (c of collections(); track c.id) {
+        <div class="collection-card" (click)="openTopic(c)">
+          <span class="icon">📘</span>
+          <h3>{{ c.name }}</h3>
+          <p class="muted small">{{ c.description }}</p>
+        </div>
+      }
+    </div>
+  }
+
+  @if (showJoinModal()) {
+    <div class="modal-backdrop" (click)="closeJoinModal()">
+      <div class="modal" (click)="$event.stopPropagation()">
+        <h3>Unirme a un grupo</h3>
+        <p class="muted small">Ingresa el código temporal que te dio tu docente</p>
+        <input class="join-input" placeholder="Ej: A7K92" [ngModel]="joinCode()" (ngModelChange)="joinCode.set($event)" />
+        @if (joinError()) { <p class="error-text">{{ joinError() }}</p> }
+        <div class="modal-actions">
+          <button class="cancel-btn" (click)="closeJoinModal()">Cancelar</button>
+          <button class="confirm-btn" [disabled]="joining()" (click)="submitJoin()">{{ joining() ? 'Uniendo...' : 'Unirme' }}</button>
+        </div>
+      </div>
+    </div>
+  }
+</div>

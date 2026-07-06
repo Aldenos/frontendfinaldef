@@ -1,0 +1,33 @@
+<div class="progress-page">
+
+  <div class="progress-card">
+    <div class="spinner-wrap">
+      <div class="spinner"></div>
+    </div>
+
+    <h2 class="progress-title">Procesando con IA...</h2>
+    <p class="progress-subtitle">Esto puede tardar unos segundos. No cierres esta ventana.</p>
+
+    <div class="steps-list">
+      @for (step of steps; track step; let i = $index) {
+        <div class="step-row" [class.done]="i < currentStep()" [class.active]="i === currentStep()">
+          <div class="step-dot">
+            @if (i < currentStep()) {
+              <span>✓</span>
+            } @else if (i === currentStep()) {
+              <div class="dot-pulse"></div>
+            } @else {
+              <div class="dot-empty"></div>
+            }
+          </div>
+          <span class="step-label">{{ step }}</span>
+        </div>
+      }
+    </div>
+
+    <div class="progress-bar-wrap">
+      <div class="progress-bar" [style.width.%]="(currentStep() / (steps.length - 1)) * 100"></div>
+    </div>
+  </div>
+
+</div>

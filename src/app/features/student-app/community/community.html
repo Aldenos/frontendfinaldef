@@ -1,0 +1,24 @@
+<div class="comm-wrap">
+  <h1>Comunidad</h1>
+  <p class="muted">Resuelve dudas y comparte recursos con otros estudiantes</p>
+
+  @if (loading()) {
+    <p class="muted">Cargando foros...</p>
+  } @else {
+    <div class="forum-list">
+      @for (c of collections(); track c.id) {
+        <div class="forum-row" (click)="openForum(c)">
+          <span class="forum-icon">📡</span>
+          <div class="forum-info">
+            <strong>{{ c.name }}</strong>
+            <span class="muted small">👥 {{ mockParticipants(c.id) }} participantes</span>
+          </div>
+          <span class="go-link">Ir al foro →</span>
+          @if (mockUnread(c.id) > 0) {
+            <span class="unread-badge">{{ mockUnread(c.id) }}</span>
+          }
+        </div>
+      }
+    </div>
+  }
+</div>

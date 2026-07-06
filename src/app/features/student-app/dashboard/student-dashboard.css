@@ -1,0 +1,143 @@
+.dash {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.card {
+  background: var(--lt-card);
+  border: 1px solid #241c38;
+  border-radius: 14px;
+  padding: 18px 20px;
+}
+
+.card-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: .06em;
+  color: var(--lt-text-muted);
+  display: block;
+  margin-bottom: 14px;
+}
+
+.week-row {
+  display: flex;
+  gap: 8px;
+}
+
+.week-dot {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: #1d1730;
+}
+
+.week-dot.filled {
+  background: linear-gradient(135deg, #22D3EE, #0891B2);
+}
+
+.missions-row {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;
+  gap: 18px;
+  align-items: start;
+}
+
+.missions-col {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.mission-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: #1c1530;
+  border: 1px solid #2c2347;
+  border-radius: 10px;
+  padding: 14px 16px;
+  cursor: pointer;
+  transition: border-color .15s, transform .1s;
+}
+
+.mission-card:hover {
+  border-color: var(--lt-secondary);
+  transform: translateY(-1px);
+}
+
+.mission-icon { font-size: 1.4rem; }
+
+.mission-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+}
+
+.mission-meta {
+  font-size: 0.78rem;
+  color: var(--lt-text-muted);
+}
+
+.badge-critical {
+  background: #4c1d1d;
+  color: #fca5a5;
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 4px 8px;
+  border-radius: 6px;
+}
+
+.side-col {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.muted { color: var(--lt-text-muted); font-size: 0.85rem; }
+.muted.small { font-size: 0.78rem; margin-bottom: 10px; }
+
+.chip-row { display: flex; flex-wrap: wrap; gap: 8px; }
+
+.chip {
+  background: #2c2347;
+  color: var(--lt-secondary);
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 6px 10px;
+  border-radius: 8px;
+}
+
+.timeline-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+  height: 40px;
+}
+
+.timeline-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.codex-btn {
+  width: 100%;
+  background: transparent;
+  border: 1px solid var(--lt-secondary);
+  color: var(--lt-secondary);
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.codex-btn:hover { background: rgba(167,139,250,.1); }
+
+@media (max-width: 860px) {
+  .missions-row { grid-template-columns: 1fr; }
+}

@@ -1,0 +1,37 @@
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <svg width="32" height="32" viewBox="0 0 44 44" fill="none">
+      <circle cx="22" cy="22" r="22" fill="#372F4C"/>
+      <path d="M14 30 L22 12 L30 30" stroke="#B8F2F4" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      <path d="M16 25 L28 25" stroke="#9B7FD4" stroke-width="2" stroke-linecap="round"/>
+      <circle cx="30" cy="14" r="4" fill="#7C5CBF"/>
+    </svg>
+    <span class="logo-text">LearnTrack</span>
+  </div>
+
+  <nav class="sidebar-nav">
+    <a routerLink="/docentes/colecciones" routerLinkActive="active" class="nav-item">
+      <span class="nav-icon">📚</span>
+      <span class="nav-label">Mis colecciones</span>
+    </a>
+    <a routerLink="/docentes/estudiantes" routerLinkActive="active" class="nav-item">
+      <span class="nav-icon">👥</span>
+      <span class="nav-label">Estudiantes</span>
+    </a>
+    <a routerLink="/docentes/hub-ruta" routerLinkActive="active" class="nav-item">
+      <span class="nav-icon">🗺️</span>
+      <span class="nav-label">Ruta de Aprendizaje</span>
+    </a>
+  </nav>
+
+  <div class="sidebar-bottom">
+    <div class="user-profile">
+      <div class="avatar">{{ initials() }}</div>
+      <div class="user-info">
+        <span class="user-name">{{ userName() }}</span>
+        <span class="user-role">Docente</span>
+      </div>
+      <button class="settings-btn" (click)="logout()" title="Cerrar sesión">⚙️</button>
+    </div>
+  </div>
+</aside>

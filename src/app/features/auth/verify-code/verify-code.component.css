@@ -1,0 +1,290 @@
+/* ============================================
+   Página completa (fondo)
+   ============================================ */
+.verify-page {
+  min-height: 100vh;
+  background: #090C08;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Ubuntu', sans-serif;
+  padding: 20px;
+}
+
+/* ============================================
+   Tarjeta principal
+   ============================================ */
+.verify-card {
+  background: #FFFFFF;
+  border-radius: 16px;
+  padding: 48px 40px;
+  max-width: 440px;
+  width: 100%;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  text-align: center;
+}
+
+.verify-logo {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.verify-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #372F4C;
+  margin: 0 0 8px 0;
+}
+
+.verify-subtitle {
+  font-size: 14px;
+  color: #666;
+  margin: 0 0 28px 0;
+  line-height: 1.6;
+}
+
+.verify-subtitle strong {
+  color: #372F4C;
+  font-weight: 600;
+}
+
+/* ============================================
+   Formulario
+   ============================================ */
+.verify-form {
+  text-align: left;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: #444;
+  margin-bottom: 6px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1.5px solid #E0E0E0;
+  border-radius: 8px;
+  font-size: 18px;
+  font-family: 'Ubuntu', sans-serif;
+  text-align: center;
+  letter-spacing: 8px;
+  transition: border-color 0.2s;
+  background: #FAFAFA;
+}
+
+.form-group input:focus {
+  border-color: #7C5CBF;
+  outline: none;
+  background: #FFFFFF;
+}
+
+.form-group input.is-invalid {
+  border-color: #D32F2F;
+  background: #FFF5F5;
+}
+
+.form-group input:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.input-hint {
+  display: block;
+  font-size: 12px;
+  color: #999;
+  margin-top: 4px;
+  letter-spacing: normal;
+}
+
+/* ============================================
+   Mensajes de error / éxito
+   ============================================ */
+.error-box {
+  background: #FEF0EF;
+  border: 1px solid #F5C6C0;
+  border-radius: 8px;
+  padding: 12px 16px;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.error-icon {
+  font-size: 18px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.error-text {
+  color: #C0392B;
+  font-size: 13px;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.success-box {
+  background: #E8F8F0;
+  border: 1px solid #A8E6C0;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.success-icon {
+  font-size: 36px;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.success-text {
+  color: #2D7D52;
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 0 4px 0;
+}
+
+.success-redirect {
+  color: #4A7A5A;
+  font-size: 13px;
+  margin: 0;
+}
+
+/* ============================================
+   Botones
+   ============================================ */
+.form-actions {
+  margin-top: 24px;
+}
+
+.btn {
+  width: 100%;
+  padding: 13px;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  font-family: 'Ubuntu', sans-serif;
+  cursor: pointer;
+  transition: background 0.2s, opacity 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn-primary {
+  background: #7C5CBF;
+  color: #FFFFFF;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: #6A4DAD;
+}
+
+.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ============================================
+   Spinner (carga)
+   ============================================ */
+.spinner {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #FFFFFF;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ============================================
+   Enlaces y pie de formulario
+   ============================================ */
+.form-footer {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.resend-link {
+  font-size: 13px;
+  color: #666;
+  margin: 0 0 8px 0;
+}
+
+.resend-link a {
+  color: #7C5CBF;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.resend-link a:hover {
+  text-decoration: underline;
+}
+
+.back-link {
+  font-size: 13px;
+  color: #888;
+  margin: 0;
+}
+
+.back-link a {
+  color: #999;
+  text-decoration: none;
+}
+
+.back-link a:hover {
+  color: #7C5CBF;
+  text-decoration: underline;
+}
+
+/* ============================================
+   Intentos restantes
+   ============================================ */
+.attempts-info {
+  margin-top: 16px;
+  font-size: 12px;
+  color: #999;
+  text-align: center;
+  border-top: 1px solid #F0F0F0;
+  padding-top: 16px;
+}
+
+/* ============================================
+   Responsive
+   ============================================ */
+@media (max-width: 480px) {
+  .verify-card {
+    padding: 32px 20px;
+  }
+
+  .verify-title {
+    font-size: 24px;
+  }
+
+  .verify-subtitle {
+    font-size: 13px;
+  }
+
+  .form-group input {
+    font-size: 16px;
+    letter-spacing: 4px;
+  }
+}

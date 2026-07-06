@@ -1,0 +1,54 @@
+<div class="fc-wrap">
+
+  @if (loading()) {
+    <p class="muted">Cargando tarjetas...</p>
+  } @else if (errorMsg()) {
+    <div class="error-card">
+      <span class="error-icon">⚡</span>
+      <h3>ERROR DE CONEXIÓN</h3>
+      <p>{{ errorMsg() }}</p>
+    </div>
+  } @else if (finished()) {
+    <div class="summary-card">
+      <h2>¡Sesión completada!</h2>
+      <p class="muted">{{ set()?.title }}</p>
+      <div class="summary-stats">
+        <div class="stat ok">
+          <span class="stat-num">{{ recalledCount() }}</span>
+          <span>Recordadas</span>
+        </div>
+        <div class="stat bad">
+          <span class="stat-num">{{ notRecalledCount() }}</span>
+          <span>A reforzar</span>
+        </div>
+      </div>
+      <button class="lobby-btn" (click)="goToLobby()">↩ Volver al Dashboard</button>
+    </div>
+  } @else if (current(); as card) {
+    <div class="breadcrumb">{{ set()?.topicName }} /</div>
+
+    @if (!flipped()) {
+      <div class="progress-bar">
+        <div class="progress-fill" [style.width.%]="(index() / cards().length) * 100"></div>
+      </div>
+      <div class="progress-label">Tarjetas restantes: {{ remaining() }}</div>
+
+      <div class="flip-card" (click)="flip()">
+        <span class="card-kicker">CONCEPTO</span>
+        <h2>{{ card.front }}</h2>
+        <span class="hint">Haz clic para voltear la tarjeta</span>
+      </div>
+      <p class="helper-text">Memoriza el concepto antes de voltear. ¿Sabes qué significa este término?</p>
+    } @else {
+      <div class="flip-card back">
+        <span class="card-kicker">DEFINICIÓN</span>
+        <p>{{ card.back }}</p>
+      </div>
+      <p class="helper-text">¿Conocías este concepto?</p>
+      <div class="recall-buttons">
+        <button class="recall-btn recall-no" (click)="answer(false)">✗</button>
+        <button class="recall-btn recall-yes" (click)="answer(true)">✓</button>
+      </div>
+    }
+  }
+</div>

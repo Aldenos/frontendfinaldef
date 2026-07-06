@@ -1,0 +1,5 @@
+.stats-bar { display: flex; gap: 32px; background: #F0EBFF; border-radius: 12px; padding: 18px 28px; margin-bottom: 32px; }
+.stat { display: flex; align-items: center; gap: 12px; }
+.stat-icon { font-size: 24px; }
+.stat-value { display: block; font-size: 22px; font-weight: 700; color: #372F4C; line-height: 1; }
+.stat-label { display: block; font-size: 12px; color: #8A859E; margin-top: 2px; }

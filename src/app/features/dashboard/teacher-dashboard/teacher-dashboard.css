@@ -1,0 +1,128 @@
+.dashboard {
+  padding: 40px 48px;
+  max-width: 1100px;
+}
+
+.dashboard-header {
+  margin-bottom: 32px;
+}
+
+.greeting {
+  font-size: 28px;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 8px;
+}
+
+.subtitle {
+  color: #8A859E;
+  font-size: 15px;
+  margin: 0;
+}
+
+/* ── Banner descripción ── */
+.about-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  background: linear-gradient(135deg, rgba(124, 92, 191, 0.15), rgba(184, 242, 244, 0.05));
+  border: 1px solid rgba(124, 92, 191, 0.25);
+  border-radius: 16px;
+  padding: 28px 32px;
+  margin-bottom: 40px;
+}
+
+.about-icon {
+  font-size: 40px;
+  flex-shrink: 0;
+}
+
+.about-text h2 {
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0 0 10px;
+}
+
+.about-text p {
+  color: #8A859E;
+  font-size: 14px;
+  line-height: 1.7;
+  margin: 0;
+}
+
+/* ── Steps ── */
+.section-title {
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0 0 20px;
+}
+
+.steps-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.step-card {
+  background: #1E1B2E;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 16px;
+  padding: 28px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: border-color 0.2s, transform 0.2s;
+}
+
+.step-card:hover {
+  border-color: rgba(124, 92, 191, 0.4);
+  transform: translateY(-2px);
+}
+
+.step-number {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(124, 92, 191, 0.2);
+  color: #B8F2F4;
+  font-size: 13px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.step-icon {
+  font-size: 28px;
+}
+
+.step-title {
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.step-desc {
+  color: #8A859E;
+  font-size: 13px;
+  line-height: 1.6;
+  margin: 0;
+  flex: 1;
+}
+
+.step-btn {
+  display: inline-block;
+  margin-top: 8px;
+  color: #B8F2F4;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.step-btn:hover {
+  color: #7C5CBF;
+}

@@ -1,0 +1,146 @@
+.page-container {
+  padding: 32px 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+  font-family: 'Ubuntu', sans-serif;
+}
+
+.page-header-centered {
+  text-align: center;
+  margin-bottom: 48px;
+  margin-top: 24px;
+}
+
+.page-header-centered h1 {
+  font-size: 32px;
+  font-weight: 700;
+  color: #372F4C;
+  margin-bottom: 12px;
+}
+
+.page-subtitle {
+  color: #8A859E;
+  font-size: 16px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.option-cards {
+  display: flex;
+  gap: 32px;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: stretch;
+}
+
+.option-card {
+  background: #FFFFFF;
+  border: 1.5px solid #EAEAEA;
+  border-radius: 20px;
+  padding: 40px 32px;
+  width: 100%;
+  max-width: 380px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 16px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.option-card:hover {
+  border-color: #7C5CBF;
+  box-shadow: 0 16px 40px rgba(124, 92, 191, 0.12);
+  transform: translateY(-8px);
+}
+
+.option-icon {
+  font-size: 40px;
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8px;
+}
+
+.manual-icon {
+  background: #F5F5F5;
+  color: #555;
+}
+
+.ai-icon {
+  background: #F5F0FF;
+  color: #7C5CBF;
+}
+
+.option-card h3 {
+  font-size: 22px;
+  font-weight: 700;
+  color: #372F4C;
+  margin: 0;
+}
+
+.option-card p {
+  color: #666;
+  font-size: 14px;
+  line-height: 1.6;
+  flex: 1; /* Empuja el botón siempre hacia abajo */
+  margin: 0;
+}
+
+.option-card button {
+  width: 100%;
+  margin-top: 16px;
+  padding: 14px 24px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-outline {
+  background: transparent;
+  border: 1.5px solid #7C5CBF;
+  color: #7C5CBF;
+}
+
+.btn-outline:hover {
+  background: #F5F0FF;
+}
+
+.btn-accent {
+  background: #7C5CBF;
+  border: 1.5px solid #7C5CBF;
+  color: white;
+}
+
+.btn-accent:hover {
+  background: #6A4DAD;
+  border-color: #6A4DAD;
+}
+
+/* Detalles especiales para destacar la IA */
+.ai-card {
+  border-color: #E0D6F0;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Etiqueta de Recomendado en la esquina superior derecha */
+.ai-card::before {
+  content: 'RECOMENDADO';
+  position: absolute;
+  top: 24px;
+  right: -36px;
+  background: #5BC08A;
+  color: white;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 6px 40px;
+  transform: rotate(45deg);
+  letter-spacing: 1px;
+}

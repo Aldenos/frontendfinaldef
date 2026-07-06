@@ -1,0 +1,38 @@
+<div class="login-page">
+  <div class="login-card">
+    <div class="login-logo">
+      <svg width="56" height="56" viewBox="0 0 56 56" fill="none">
+        <circle cx="28" cy="28" r="28" fill="#372F4C"/>
+        <path d="M18 38 L28 14 L38 38" stroke="#B8F2F4" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <path d="M21 30 L35 30" stroke="#9B7FD4" stroke-width="2.5" stroke-linecap="round"/>
+        <circle cx="38" cy="18" r="5" fill="#7C5CBF"/>
+      </svg>
+    </div>
+    <h1>LearnTrack</h1>
+    <p class="subtitle">Plataforma Educativa</p>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <div class="field">
+        <label>Correo institucional</label>
+        <input type="email" formControlName="email" placeholder="usuario@upc.edu.pe" 
+               [class.invalid]="loginForm.controls.email.invalid && loginForm.controls.email.touched" />
+      </div>
+      
+      <div class="field">
+        <label>Contraseña</label>
+        <input type="password" formControlName="password" placeholder="••••••••" 
+               [class.invalid]="loginForm.controls.password.invalid && loginForm.controls.password.touched" />
+      </div>
+
+      @if (errorMsg()) {
+        <p class="error">{{ errorMsg() }}</p>
+      }
+
+      <button type="submit" [disabled]="loading()">
+        {{ loading() ? 'Ingresando...' : 'Ingresar' }}
+      </button>
+    </form>
+
+    <p class="switch-link">¿No tienes cuenta? <a routerLink="/register">Regístrate aquí</a></p>
+  </div>
+</div>

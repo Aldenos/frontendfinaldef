@@ -1,0 +1,14 @@
+.backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.45); backdrop-filter: blur(2px); display: grid; place-items: center; z-index: 100; }
+.modal { background: white; border-radius: 16px; padding: 36px; width: min(480px, 92vw); box-shadow: 0 20px 50px rgba(0,0,0,0.2); }
+.modal-title { font-size: 20px; font-weight: 700; color: #372F4C; margin: 0 0 24px; }
+.field { margin-bottom: 18px; }
+.field label { display: block; font-size: 12px; font-weight: 700; color: #555; margin-bottom: 6px; text-transform: uppercase; letter-spacing: .4px; }
+.field input { width: 100%; padding: 11px 14px; border: 1.5px solid #E0E0E0; border-radius: 8px; font-size: 14px; font-family: 'Ubuntu', sans-serif; box-sizing: border-box; }
+.field input:focus { border-color: #7C5CBF; outline: none; }
+.hint { display: block; font-size: 11px; color: #AAA; margin-top: 4px; }
+.error { color: #D32F2F; font-size: 13px; margin: -8px 0 12px; }
+.actions { display: flex; gap: 12px; justify-content: flex-end; margin-top: 8px; }
+.btn-cancel { background: transparent; border: 1.5px solid #EAEAEA; color: #666; padding: 10px 20px; border-radius: 8px; font-weight: 600; font-size: 14px; cursor: pointer; font-family: 'Ubuntu', sans-serif; }
+.btn-primary { background: #7C5CBF; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 700; font-size: 14px; cursor: pointer; font-family: 'Ubuntu', sans-serif; transition: background .2s; }
+.btn-primary:hover:not(:disabled) { background: #9B7FD4; }
+.btn-primary:disabled, .btn-cancel:disabled { opacity: .6; cursor: not-allowed; }

@@ -1,0 +1,36 @@
+<div class="dashboard">
+
+  <div class="dashboard-header">
+    <div>
+      <h1 class="greeting">¡Hola, {{ firstName() }}! 👋</h1>
+      <p class="subtitle">Bienvenido a LearnTrack. Aquí puedes gestionar tus colecciones, grupos y actividades.</p>
+    </div>
+  </div>
+
+  <div class="about-banner">
+    <div class="about-icon">🎓</div>
+    <div class="about-text">
+      <h2>¿Qué es LearnTrack?</h2>
+      <p>
+        LearnTrack es una plataforma educativa que te permite crear colecciones de temas,
+        generar actividades de aprendizaje con inteligencia artificial y hacer seguimiento
+        del rendimiento de tus estudiantes en tiempo real.
+      </p>
+    </div>
+  </div>
+
+  <h2 class="section-title">¿Por dónde empezar?</h2>
+
+  <div class="steps-grid">
+    @for (step of steps; track step.title; let i = $index) {
+      <div class="step-card">
+        <div class="step-number">{{ i + 1 }}</div>
+        <div class="step-icon">{{ step.icon }}</div>
+        <h3 class="step-title">{{ step.title }}</h3>
+        <p class="step-desc">{{ step.description }}</p>
+        <a [routerLink]="step.link" class="step-btn">{{ step.label }} →</a>
+      </div>
+    }
+  </div>
+
+</div>

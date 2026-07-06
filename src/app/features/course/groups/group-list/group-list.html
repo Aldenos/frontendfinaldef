@@ -1,0 +1,45 @@
+<div class="group-list-wrap">
+  <div class="list-header">
+    <h3 class="list-title">Grupos ({{ groups().length }})</h3>
+    <button class="btn-primary" (click)="showCreateModal.set(true)">+ Nuevo Grupo</button>
+  </div>
+
+  @if (loading()) {
+    <p class="loading-text">Cargando grupos...</p>
+  } @else if (groups().length === 0) {
+    <div class="empty">
+      <p>No hay grupos vinculados. Crea el primero.</p>
+      <button class="btn-primary" (click)="showCreateModal.set(true)">Crear grupo</button>
+    </div>
+  } @else {
+    <div class="grid">
+      @for (group of groups(); track group.id) {
+        <div class="card">
+          <div class="card-top">
+            <span class="code">{{ group.code }}</span>
+            <span class="status-badge">Activo</span>
+          </div>
+          <p class="name">{{ group.name }}</p>
+          <p class="students">♙ {{ group.studentsCount ?? 0 }} estudiantes</p>
+          <button class="btn-enroll" (click)="enrollGroup.set(group)">📋 Inscribir alumnos</button>
+        </div>
+      }
+    </div>
+  }
+
+  @if (showCreateModal()) {
+    <app-group-create-modal
+      [collectionId]="collectionId()"
+      (saved)="onGroupCreated($event)"
+      (cancelled)="showCreateModal.set(false)">
+    </app-group-create-modal>
+  }
+
+  @if (enrollGroup()) {
+    <app-group-enroll-modal
+      [groupCode]="enrollGroup()!.code"
+      (enrolled)="enrollGroup.set(null)"
+      (cancelled)="enrollGroup.set(null)">
+    </app-group-enroll-modal>
+  }
+</div>

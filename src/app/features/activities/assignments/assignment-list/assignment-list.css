@@ -1,0 +1,78 @@
+.assignments-page {
+  min-height: 100vh;
+  padding: 64px 72px;
+  background: #f8f8fa;
+  color: #352d4b;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  align-items: flex-start;
+  margin-bottom: 40px;
+}
+
+h1 {
+  margin: 0;
+  font-size: 56px;
+  font-weight: 600;
+}
+
+.page-header p {
+  margin-top: 10px;
+  color: #6b7280;
+}
+
+.primary-button {
+  border: none;
+  border-radius: 8px;
+  padding: 13px 28px;
+  background: #8d55b4;
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(63, 45, 86, 0.25);
+}
+
+.table-card {
+  background: white;
+  border-radius: 14px;
+  padding: 28px;
+  box-shadow: 0 8px 26px rgba(30, 30, 30, 0.08);
+}
+
+.table-card h2 {
+  margin: 0 0 24px;
+  color: #111;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th {
+  padding: 18px 12px;
+  background: #f5f5f6;
+  color: #9ca3af;
+  text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+}
+
+td {
+  padding: 18px 12px;
+  border-top: 1px solid #e5e7eb;
+  color: #4b5563;
+}
+
+.status-pill {
+  display: inline-block;
+  padding: 7px 14px;
+  border-radius: 999px;
+  background: #c9f7df;
+  color: #087a46;
+  font-weight: 700;
+  font-size: 13px;
+}

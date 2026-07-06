@@ -1,0 +1,96 @@
+<div class="register-page">
+  @if (step() === 1) {
+    <div class="register-card">
+      <div class="register-logo">
+        <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+          <rect width="64" height="64" rx="16" fill="#1E1E3A"/>
+          <path d="M20 46 L32 18 L44 46" stroke="#00E5FF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          <path d="M24 36 L40 36" stroke="#B06EFF" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="44" cy="22" r="5" fill="#7C5CBF"/>
+        </svg>
+      </div>
+
+      <!-- Toggle Docente / Estudiante -->
+      <div class="role-toggle">
+        <button type="button"
+          class="role-btn"
+          [class.active]="role() === 'DOCENTE'"
+          (click)="role.set('DOCENTE')">
+          🎓 Docente
+        </button>
+        <button type="button"
+          class="role-btn"
+          [class.active]="role() === 'ESTUDIANTE'"
+          (click)="role.set('ESTUDIANTE')">
+          📚 Estudiante
+        </button>
+      </div>
+
+      <h1>{{ role() === 'DOCENTE' ? 'Crear cuenta docente' : 'Crear cuenta alumno' }}</h1>
+      <p class="subtitle">Completa los datos para comenzar</p>
+
+      @if (serverError()) {
+        <p class="field-error general-error">{{ serverError() }}</p>
+      }
+
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        <div class="field">
+          <label>Nombre completo</label>
+          <input type="text" formControlName="firstName" placeholder="Tu nombre"
+                 [class.invalid]="f.firstName.invalid && f.firstName.touched" />
+          @if (f.firstName.invalid && f.firstName.touched) { <span class="field-error">Campo obligatorio</span> }
+        </div>
+
+        <div class="field">
+          <label>Apellido completo</label>
+          <input type="text" formControlName="lastName" placeholder="Tus apellidos"
+                 [class.invalid]="f.lastName.invalid && f.lastName.touched" />
+          @if (f.lastName.invalid && f.lastName.touched) { <span class="field-error">Campo obligatorio</span> }
+        </div>
+
+        <div class="field">
+          <label>Correo institucional</label>
+          <input type="email" formControlName="email" placeholder="ejemplo@upc.edu.pe"
+                 [class.invalid]="f.email.invalid && f.email.touched" />
+          @if (f.email.errors?.['required'] && f.email.touched) { <span class="field-error">Campo obligatorio</span> }
+          @if (f.email.errors?.['notUpcEmail'] && f.email.touched) { <span class="field-error">Debe ser un correo @upc.edu.pe</span> }
+        </div>
+
+        <div class="field">
+          <label>Contraseña</label>
+          <input type="password" formControlName="password" placeholder="Mínimo 6 caracteres"
+                 [class.invalid]="f.password.invalid && f.password.touched" />
+        </div>
+
+        <div class="field">
+          <label>Confirmar contraseña</label>
+          <input type="password" formControlName="confirmPassword" placeholder="Repite tu contraseña"
+                 [class.invalid]="f.confirmPassword.invalid && f.confirmPassword.touched" />
+          @if (f.confirmPassword.errors?.['passwordMismatch'] && f.confirmPassword.touched) {
+            <span class="field-error">Las contraseñas no coinciden</span>
+          }
+        </div>
+
+        <button type="submit" [disabled]="loading()">
+          {{ loading() ? 'Registrando...' : 'Crear Cuenta' }}
+        </button>
+      </form>
+
+      <p class="switch-link">¿Ya tienes cuenta? <a routerLink="/login">Inicia sesión</a></p>
+    </div>
+  }
+
+  @if (step() === 2) {
+    <div class="register-card success-card">
+      @if (role() === 'ESTUDIANTE') {
+        <h2>¡Bienvenido a la comunidad!</h2>
+        <p class="success-sub">Tu cuenta de alumno ha sido creada.<br><br>¡Comienza la experiencia iniciando sesión!</p>
+        <button (click)="goLogin()">Iniciar Sesión</button>
+      } @else {
+        <h2>¡Gracias por registrarte!</h2>
+        <p class="success-sub">Hemos recibido tus datos correctamente.<br><br>Por favor, espera a que un <b>Administrador</b> verifique y active tu cuenta para poder ingresar.</p>
+        <button (click)="goLogin()">Ir al Login</button>
+      }
+    </div>
+  }
+</div>

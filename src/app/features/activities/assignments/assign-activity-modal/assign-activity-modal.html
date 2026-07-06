@@ -1,0 +1,67 @@
+<div class="modal-backdrop">
+  <div class="modal">
+    <h2>Asignar Actividad</h2>
+
+    <label>
+      Actividad
+      <select
+        [ngModel]="activity()"
+        (ngModelChange)="activity.set($event); errorMessage.set('')"
+      >
+        <option value="">Seleccionar actividad</option>
+        <option *ngFor="let item of activities" [value]="item">
+          {{ item }}
+        </option>
+      </select>
+    </label>
+
+    <label>
+      Colección
+      <select
+        [ngModel]="collection()"
+        (ngModelChange)="collection.set($event); errorMessage.set('')"
+      >
+        <option value="">Seleccionar colección</option>
+        <option *ngFor="let item of collections" [value]="item">
+          {{ item }}
+        </option>
+      </select>
+    </label>
+
+    <label>
+      Grupo
+      <select
+        [ngModel]="group()"
+        (ngModelChange)="group.set($event); errorMessage.set('')"
+      >
+        <option value="">Seleccionar grupo</option>
+        <option *ngFor="let item of groups" [value]="item">
+          {{ item }}
+        </option>
+      </select>
+    </label>
+
+    <label>
+      Fecha límite
+      <input
+        type="date"
+        [ngModel]="dueDate()"
+        (ngModelChange)="dueDate.set($event); errorMessage.set('')"
+      />
+    </label>
+
+    <p class="error-message" *ngIf="errorMessage()">
+      ⚠ {{ errorMessage() }}
+    </p>
+
+    <div class="modal-actions">
+      <button class="cancel-button" type="button" (click)="close()">
+        Cancelar
+      </button>
+
+      <button class="primary-button" type="button" (click)="createAssignment()">
+        ✓ Asignar
+      </button>
+    </div>
+  </div>
+</div>

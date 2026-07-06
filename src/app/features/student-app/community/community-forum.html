@@ -1,0 +1,38 @@
+<div class="forum-wrap">
+  <button class="back-btn" (click)="goBack()">← Comunidad</button>
+  <div class="breadcrumb">The Codex / {{ topicName() }}</div>
+  <h1>Muro de Sabiduría: {{ topicName() }}</h1>
+  <p class="muted">Estudiantes compartiendo dudas y recursos ahora</p>
+
+  <div class="composer">
+    <textarea
+      rows="3"
+      placeholder="Comparte una duda, un recurso o una explicación..."
+      [ngModel]="newPostText()"
+      (ngModelChange)="newPostText.set($event)">
+    </textarea>
+    <div class="composer-footer">
+      <span class="tools">📎 &#123;&#125; ❓</span>
+      <button class="publish-btn" [disabled]="!newPostText().trim()" (click)="publish()">Publicar</button>
+    </div>
+  </div>
+
+  <div class="posts">
+    @for (p of posts(); track p.text) {
+      <div class="post-card">
+        <div class="post-head">
+          <span class="avatar-sm">{{ p.authorInitials }}</span>
+          <div>
+            <strong>{{ p.authorName }}</strong>
+            <span class="muted small">🏆 Nivel {{ p.level }} · {{ p.badge }}</span>
+          </div>
+        </div>
+        <p class="post-text">{{ p.text }}</p>
+        <div class="post-footer">
+          <span class="chip">⚡ +{{ p.xp }} XP · {{ p.reactions }}</span>
+          <button class="reply-btn">💬 Responder</button>
+        </div>
+      </div>
+    }
+  </div>
+</div>

@@ -1,0 +1,17 @@
+.login-page { min-height: 100vh; background: #090C08; display: flex; align-items: center; justify-content: center; font-family: 'Ubuntu', sans-serif;}
+.login-card { background: white; border-radius: 16px; padding: 48px 40px; width: 380px; box-shadow: 0 8px 32px rgba(0,0,0,.3); text-align: center; }
+.login-logo { margin-bottom: 12px; display: flex; justify-content: center; }
+h1 { font-size: 28px; font-weight: 700; color: #372F4C; margin: 0 0 4px; }
+.subtitle { font-size: 13px; color: #666; margin-bottom: 24px; }
+.field { margin-bottom: 16px; text-align: left; }
+.field label { display: block; font-size: 12px; font-weight: 500; color: #666; margin-bottom: 6px; }
+.field input { width: 100%; padding: 11px 14px; border: 1.5px solid #E0E0E0; border-radius: 8px; font-size: 14px; font-family: 'Ubuntu', sans-serif; }
+.field input:focus { border-color: #7C5CBF; outline: none; }
+.field input.invalid { border-color: #D32F2F; }
+.error { color: #D32F2F; font-size: 13px; margin-bottom: 10px; }
+button { width: 100%; padding: 12px; background: #7C5CBF; color: white; border-radius: 8px; font-size: 15px; font-weight: 600; border: none; cursor: pointer; font-family: 'Ubuntu', sans-serif; margin-top: 8px; transition: background .2s; }
+button:hover:not(:disabled) { background: #9B7FD4; }
+button:disabled { opacity: .7; cursor: not-allowed; }
+.switch-link { font-size: 13px; color: #666; margin-top: 20px; }
+.switch-link a { color: #7C5CBF; font-weight: 600; text-decoration: none; }
+.switch-link a:hover { text-decoration: underline; }

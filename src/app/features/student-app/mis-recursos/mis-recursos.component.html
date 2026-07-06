@@ -1,0 +1,135 @@
+<div class="page">
+  <div class="page-header">
+    <div>
+      <h1>📚 Mis Recursos</h1>
+      <p class="subtitle">Actividades que creaste para tu práctica personal</p>
+    </div>
+    <button class="btn-create" (click)="openModal()">+ Crear actividad</button>
+  </div>
+
+  @if (loading()) {
+    <div class="loading-wrap"><span class="loader"></span><p>Cargando...</p></div>
+  } @else if (recursos().length === 0) {
+    <div class="empty-state">
+      <span class="empty-icon">📖</span>
+      <h2>Sin actividades propias</h2>
+      <p>Crea tu primer quiz personal para practicar a tu ritmo.</p>
+      <button class="btn-create" (click)="openModal()">Crear actividad</button>
+    </div>
+  } @else {
+    <div class="recursos-grid">
+      @for (act of recursos(); track act.id) {
+        <div class="recurso-card">
+          <div class="card-top">
+            <span class="type-badge">{{ typeLabel(act.type) }}</span>
+            <span class="personal-tag">Personal</span>
+          </div>
+          <h3 class="card-title">{{ act.title }}</h3>
+          <p class="card-topic">{{ act.topicName }}</p>
+          <button class="btn-play" (click)="playActivity(act)">▶ Resolver</button>
+        </div>
+      }
+    </div>
+  }
+</div>
+
+<!-- ═══════ MODAL WIZARD ═══════ -->
+@if (showModal()) {
+  <div class="modal-backdrop" (click)="showModal.set(false)"></div>
+  <div class="modal">
+    <div class="modal-header">
+      <h2>Nueva actividad personal</h2>
+      <button class="close-btn" (click)="showModal.set(false)">✕</button>
+    </div>
+
+    <!-- Stepper -->
+    <div class="stepper">
+      <div class="step" [class.active]="step() >= 1" [class.done]="step() > 1">1. Colección</div>
+      <div class="step-line"></div>
+      <div class="step" [class.active]="step() >= 2" [class.done]="step() > 2">2. Tema</div>
+      <div class="step-line"></div>
+      <div class="step" [class.active]="step() >= 3">3. Preguntas</div>
+    </div>
+
+    @if (modalError()) {
+      <p class="field-error">{{ modalError() }}</p>
+    }
+
+    <!-- PASO 1: Colección -->
+    @if (step() === 1) {
+      <p class="step-hint">Selecciona la colección a la que pertenece tu actividad</p>
+      @if (collections().length === 0) {
+        <p class="muted">No tienes colecciones inscritas aún. Únete a un grupo primero.</p>
+      }
+      <div class="list-select">
+        @for (col of collections(); track col.id) {
+          <button class="list-item" (click)="selectCollection(col)">
+            📚 {{ col.name }}
+          </button>
+        }
+      </div>
+    }
+
+    <!-- PASO 2: Tema -->
+    @if (step() === 2) {
+      <p class="step-hint">Selecciona el tema de tu actividad en <strong>{{ selectedCol()?.name }}</strong></p>
+      <div class="list-select">
+        @for (topic of topics(); track topic.id) {
+          <button class="list-item" (click)="selectTopic(topic)">
+            📖 {{ topic.name }}
+          </button>
+        }
+      </div>
+      <button class="btn-back" (click)="step.set(1)">← Volver</button>
+    }
+
+    <!-- PASO 3: Preguntas -->
+    @if (step() === 3) {
+      <div class="field">
+        <label>Título del quiz</label>
+        <input type="text" [ngModel]="actTitle()" (ngModelChange)="actTitle.set($event)"
+               placeholder="Ej: Práctica sobre Spring Boot" />
+      </div>
+
+      <div class="questions-wrap">
+        @for (q of questions(); track $index; let qi = $index) {
+          <div class="question-block">
+            <div class="q-header">
+              <span class="q-label">Pregunta {{ qi + 1 }}</span>
+              @if (questions().length > 1) {
+                <button class="btn-remove" (click)="removeQuestion(qi)">✕</button>
+              }
+            </div>
+            <input type="text" class="q-input" placeholder="Enunciado de la pregunta"
+              [ngModel]="q.statement" (ngModelChange)="updateQuestion(qi, 'statement', $event)" />
+            <input type="text" class="q-input small" placeholder="Explicación (opcional)"
+              [ngModel]="q.explanation" (ngModelChange)="updateQuestion(qi, 'explanation', $event)" />
+            <div class="options-wrap">
+              @for (opt of q.options; track $index; let oi = $index) {
+                <div class="option-row">
+                  <input type="radio" [name]="'c-' + qi" [checked]="opt.correct" (change)="setCorrect(qi, oi)" />
+                  <input type="text" class="opt-input" placeholder="Opción {{ oi + 1 }}"
+                    [ngModel]="opt.text" (ngModelChange)="updateOption(qi, oi, $event)" />
+                  @if (q.options.length > 2) {
+                    <button class="btn-remove-sm" (click)="removeOption(qi, oi)">✕</button>
+                  }
+                </div>
+              }
+              @if (q.options.length < 5) {
+                <button class="btn-add-opt" (click)="addOption(qi)">+ Opción</button>
+              }
+            </div>
+          </div>
+        }
+        <button class="btn-add-q" (click)="addQuestion()">+ Agregar pregunta</button>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-back" (click)="step.set(2)">← Volver</button>
+        <button class="btn-save" [disabled]="saving()" (click)="save()">
+          {{ saving() ? 'Guardando...' : '✓ Guardar y resolver' }}
+        </button>
+      </div>
+    }
+  </div>
+}

@@ -1,0 +1,65 @@
+<div class="dash">
+
+  <section class="daily-ritual card">
+    <span class="card-label">DAILY RITUAL — ESTA SEMANA</span>
+    <div class="week-row">
+      @for (d of weekDots; track d) {
+        <span class="week-dot" [class.filled]="d < 4"></span>
+      }
+    </div>
+  </section>
+
+  <section class="missions-row">
+    <div class="missions-col card">
+      <span class="card-label">⚡ Misiones de Clase</span>
+
+      @if (loading()) {
+        <p class="muted">Cargando misiones...</p>
+      } @else if (missions().length === 0) {
+        <p class="muted">No tienes actividades pendientes. ¡Vas al día!</p>
+      } @else {
+        @for (m of missions(); track m.activity.id) {
+          <div class="mission-card" (click)="startMission(m)">
+            <span class="mission-icon">{{ m.icon }}</span>
+            <div class="mission-info">
+              <strong>{{ m.activity.title }}</strong>
+              <span class="mission-meta">{{ m.activity.topicName || 'Tema' }} · {{ m.estimatedMin }} min</span>
+            </div>
+            @if (m.critical) {
+              <span class="badge-critical">CRÍTICO</span>
+            }
+          </div>
+        }
+      }
+    </div>
+
+    <div class="side-col">
+      <div class="card strategy-card">
+        <span class="card-label">🎯 El Estrategia — Plan Adaptativo</span>
+        <p class="muted small">Tu nivel en temas prioritarios</p>
+        <div class="chip-row">
+          <span class="chip">{{ priorityGaps().length }} Brecha(s) a Reforzar</span>
+        </div>
+      </div>
+
+      <div class="card mastery-card">
+        <span class="card-label">MASTERY TIMELINE</span>
+        @if (timeline().length === 0) {
+          <p class="muted small">Aún no hay resultados registrados</p>
+        } @else {
+          <div class="timeline-row">
+            @for (t of timeline(); track t.date) {
+              <span class="timeline-dot" [style.backgroundColor]="t.score >= 70 ? 'var(--lt-success)' : '#A78BFA'" [title]="t.activityTitle + ': ' + t.score"></span>
+            }
+          </div>
+        }
+      </div>
+
+      <div class="card side-quests-card">
+        <span class="card-label">⊙ SIDE QUESTS — THE CODEX</span>
+        <button class="codex-btn" (click)="goToCodex()">Explorar temas →</button>
+      </div>
+    </div>
+  </section>
+
+</div>

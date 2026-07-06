@@ -1,0 +1,29 @@
+<div class="backdrop" (click)="close()">
+  <div class="modal" (click)="$event.stopPropagation()">
+    <h2 class="modal-title">Inscribir Alumnos — {{ groupCode() }}</h2>
+
+    @if (successCount() > 0) {
+      <div class="success-msg">
+        ✅ {{ successCount() }} alumno(s) inscritos correctamente.
+      </div>
+    } @else {
+      <div class="field">
+        <label>Correos institucionales</label>
+        <textarea rows="6" [ngModel]="emailsText()" (ngModelChange)="emailsText.set($event)"
+                  placeholder="usuario1&#64;upc.edu.pe&#10;usuario2&#64;upc.edu.pe&#10;..."></textarea>
+        <span class="hint">Un correo por línea.</span>
+      </div>
+
+      @if (error()) {
+        <p class="error">{{ error() }}</p>
+      }
+
+      <div class="actions">
+        <button class="btn-cancel" (click)="close()" [disabled]="loading()">Cancelar</button>
+        <button class="btn-primary" (click)="submit()" [disabled]="loading()">
+          {{ loading() ? 'Inscribiendo...' : 'Inscribir Alumnos' }}
+        </button>
+      </div>
+    }
+  </div>
+</div>

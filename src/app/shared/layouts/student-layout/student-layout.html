@@ -1,0 +1,40 @@
+<div class="student-theme app-shell">
+
+  @if (!focusMode()) {
+    <header class="navbar">
+      <div class="navbar-left">
+        <span class="logo">Learn<span class="logo-accent">Track</span></span>
+        <nav class="nav-links">
+          <a routerLink="/estudiantes/dashboard" routerLinkActive="active">Mis Rutas</a>
+          <a routerLink="/estudiantes/comunidad" routerLinkActive="active">Comunidad</a>
+          <a routerLink="/estudiantes/codex" routerLinkActive="active">The Codex</a>
+          <a routerLink="/estudiantes/mis-recursos" routerLinkActive="active">Mis Recursos</a>
+        </nav>
+      </div>
+      <div class="navbar-right">
+        <span class="streak">🔥 {{ streak() }}</span>
+        <span class="level-block">
+          <span class="lvl-label">LVL {{ level() }}</span>
+          <span class="xp-bar"><span class="xp-fill" [style.width.%]="(xp() / xpTarget()) * 100"></span></span>
+          <span class="xp-label">{{ xp() }}/{{ xpTarget() }}</span>
+        </span>
+        <button class="icon-btn" title="Notificaciones">🔔</button>
+        <a routerLink="/estudiantes/perfil" class="avatar" title="{{ fullName() }}">{{ initials() }}</a>
+        <button class="icon-btn logout-btn" (click)="logout()" title="Cerrar sesión">⏻</button>
+      </div>
+    </header>
+  } @else {
+    <header class="navbar focus">
+      <span class="role-badge">🎓 ESTUDIANTE</span>
+      <div class="navbar-right">
+        <span class="streak">🔥 {{ streak() }}</span>
+        <button class="icon-btn" title="Notificaciones">🔔</button>
+        <a routerLink="/estudiantes/perfil" class="avatar" title="{{ fullName() }}">{{ initials() }}</a>
+      </div>
+    </header>
+  }
+
+  <main class="content">
+    <router-outlet></router-outlet>
+  </main>
+</div>

@@ -1,0 +1,90 @@
+<div class="verify-page">
+  <div class="verify-card">
+    <!-- Logo -->
+    <div class="verify-logo">
+      <svg width="56" height="56" viewBox="0 0 56 56" fill="none">
+        <circle cx="28" cy="28" r="28" fill="#372F4C"/>
+        <path d="M18 38 L28 14 L38 38" stroke="#B8F2F4" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <path d="M21 30 L35 30" stroke="#9B7FD4" stroke-width="2.5" stroke-linecap="round"/>
+        <circle cx="38" cy="18" r="5" fill="#7C5CBF"/>
+      </svg>
+    </div>
+
+    <h1 class="verify-title">Verifica tu cuenta</h1>
+    <p class="verify-subtitle">
+      Hemos enviado un código de verificación de 6 dígitos a<br>
+      <strong>{{ email() }}</strong>
+    </p>
+
+    <!-- Estado de éxito -->
+    @if (success()) {
+      <div class="success-box">
+        <span class="success-icon">✅</span>
+        <p class="success-text">¡Cuenta verificada exitosamente!</p>
+        <p class="success-redirect">Redirigiendo al login en {{ redirectCountdown() }} segundos...</p>
+      </div>
+    }
+
+    <!-- Formulario de verificación -->
+    @if (!success()) {
+      <form (ngSubmit)="verifyCode()" class="verify-form">
+        <div class="form-group">
+          <label for="codeInput">Código de verificación</label>
+          <input
+            id="codeInput"
+            type="text"
+            [ngModel]="code()"
+            (ngModelChange)="code.set($event)"
+            placeholder="Ej: 123456"
+            maxlength="6"
+            autocomplete="off"
+            [class.is-invalid]="errorMsg()"
+            [disabled]="loading()"
+          />
+          <small class="input-hint">Ingresa los 6 dígitos recibidos en tu correo</small>
+        </div>
+
+        <!-- Mensaje de error -->
+        @if (errorMsg()) {
+          <div class="error-box">
+            <span class="error-icon">⚠️</span>
+            <p class="error-text">{{ errorMsg() }}</p>
+          </div>
+        }
+
+        <!-- Botones de acción -->
+        <div class="form-actions">
+          <button
+            type="submit"
+            class="btn btn-primary"
+            [disabled]="loading() || code().length !== 6"
+          >
+            @if (loading()) {
+              <span class="spinner"></span> Verificando...
+            } @else {
+              Verificar código
+            }
+          </button>
+        </div>
+
+        <!-- Enlaces adicionales -->
+        <div class="form-footer">
+          <p class="resend-link">
+            ¿No recibiste el código?
+            <a href="javascript:void(0)" (click)="resendCode()">Reenviar código</a>
+          </p>
+          <p class="back-link">
+            <a routerLink="/register">Volver al registro</a>
+          </p>
+        </div>
+      </form>
+    }
+
+    <!-- Información de intentos -->
+    @if (!success() && attempts() > 0 && attempts() < maxAttempts) {
+      <div class="attempts-info">
+        <span>Intentos restantes: {{ maxAttempts - attempts() }}</span>
+      </div>
+    }
+  </div>
+</div>

@@ -1,0 +1,46 @@
+<section class="page">
+  <header class="page-header">
+    <div>
+      <h1 class="page-title">Mis Colecciones</h1>
+      <p class="page-subtitle">Organiza tu contenido por cursos y unidades</p>
+    </div>
+    <button class="btn-primary" (click)="showModal.set(true)">+ Nueva Colección</button>
+  </header>
+
+  @if (loading()) {
+    <div class="loading-wrap">
+      <span class="loader"></span>
+      <p>Cargando colecciones...</p>
+    </div>
+  } @else if (error()) {
+    <div class="alert-error">{{ error() }}</div>
+  } @else if (collections().length === 0) {
+    <div class="empty-state">
+      <span class="empty-icon">📚</span>
+      <h2>Aún no tienes colecciones</h2>
+      <p>Crea tu primera colección para organizar temas y actividades.</p>
+      <button class="btn-primary" (click)="showModal.set(true)">Crear colección</button>
+    </div>
+  } @else {
+    <div class="grid">
+      @for (col of collections(); track col.id) {
+        <article class="card" (click)="openDetail(col.id)">
+          <div class="card-icon">📚</div>
+          <h2 class="card-title">{{ col.name }}</h2>
+          <p class="card-desc">{{ col.description || 'Sin descripción' }}</p>
+          <div class="card-footer">
+            <span class="badge">{{ col.topicCount ?? 0 }} temas</span>
+            <span class="link-hint">Ver detalle →</span>
+          </div>
+        </article>
+      }
+    </div>
+  }
+
+  @if (showModal()) {
+    <app-collection-create-modal
+      (saved)="onCreated($event)"
+      (cancelled)="showModal.set(false)">
+    </app-collection-create-modal>
+  }
+</section>

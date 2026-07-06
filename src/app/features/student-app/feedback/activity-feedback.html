@@ -1,0 +1,38 @@
+<div class="feedback-wrap">
+
+  @if (loading()) {
+    <p class="muted">Cargando resultados...</p>
+  } @else if (result(); as r) {
+
+    <div class="banner" [class.banner-ok]="r.correctAnswers >= r.totalQuestions / 2" [class.banner-bad]="r.correctAnswers < r.totalQuestions / 2">
+      <span>{{ r.correctAnswers >= r.totalQuestions / 2 ? '✓' : '✗' }} Desglose de {{ r.activityTitle }} — {{ r.correctAnswers }} / {{ r.totalQuestions }} correctas</span>
+    </div>
+
+    <div class="result-table card">
+      <div class="table-head">
+        <span>PREGUNTA</span>
+        <span>ESTADO</span>
+        <span>FEEDBACK</span>
+      </div>
+      @for (a of r.answers; track a.questionText) {
+        <div class="table-row">
+          <span class="q-text">{{ a.questionText }}</span>
+          <span class="status" [class.ok]="a.isCorrect" [class.bad]="!a.isCorrect">
+            {{ a.isCorrect ? '✓ Correcto' : '✗ Incorrecto' }}
+          </span>
+          <span class="explanation">
+            {{ a.isCorrect ? '¡Exacto! ' : ('La respuesta era ' + a.correctOptionText + '. ') }}{{ a.explanation }}
+          </span>
+        </div>
+      }
+    </div>
+
+    <div class="footer-row">
+      <span class="xp-earned">⚡ +{{ xpEarned() }} XP ganados</span>
+      <button class="lobby-btn" (click)="goToLobby()">↩ Volver al Dashboard</button>
+    </div>
+
+  } @else {
+    <p class="muted">No se encontró el resultado.</p>
+  }
+</div>

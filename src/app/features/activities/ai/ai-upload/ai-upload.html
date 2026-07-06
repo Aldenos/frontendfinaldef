@@ -1,0 +1,46 @@
+<div class="upload-page">
+
+  <div class="page-header">
+    <h1 class="page-title">Crear actividad con IA</h1>
+    <p class="page-subtitle">Sube un archivo y la IA generará preguntas y flashcards automáticamente.</p>
+  </div>
+
+  <div class="upload-card">
+    <div
+      class="drop-zone"
+      [class.drag-over]="dragOver()"
+      (dragover)="onDragOver($event)"
+      (dragleave)="onDragLeave()"
+      (drop)="onDrop($event)"
+    >
+      @if (!selectedFile()) {
+        <div class="drop-content">
+          <span class="drop-icon">📄</span>
+          <p class="drop-title">Arrastra tu archivo aquí</p>
+          <p class="drop-hint">PDF o Word — máximo 20 MB</p>
+          <label class="btn-select" for="file-input">Seleccionar archivo</label>
+          <input id="file-input" type="file" accept=".pdf,.doc,.docx" hidden (change)="onFileChange($event)" />
+        </div>
+      } @else {
+        <div class="file-selected">
+          <span class="file-icon">✅</span>
+          <div class="file-info">
+            <p class="file-name">{{ selectedFile()!.name }}</p>
+            <p class="file-size">{{ (selectedFile()!.size / 1024 / 1024).toFixed(2) }} MB</p>
+          </div>
+          <button class="btn-remove" (click)="removeFile()">✕</button>
+        </div>
+      }
+    </div>
+
+    <div class="supported">
+      <span class="chip">📑 PDF</span>
+      <span class="chip">📝 Word (.doc / .docx)</span>
+    </div>
+
+    <button class="btn-process" [disabled]="!selectedFile()" (click)="process()">
+      🤖 Procesar con IA
+    </button>
+  </div>
+
+</div>

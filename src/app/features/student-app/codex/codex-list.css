@@ -1,0 +1,110 @@
+.codex-wrap {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.codex-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.codex-header h1 { font-size: 1.4rem; }
+
+.muted { color: var(--lt-text-muted); }
+.muted.small { font-size: 0.82rem; }
+
+.join-btn {
+  background: linear-gradient(90deg, #06B6D4, #7C3AED);
+  border: none;
+  color: #fff;
+  padding: 9px 16px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 0.82rem;
+  cursor: pointer;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+  margin-top: 22px;
+}
+
+.collection-card {
+  background: var(--lt-card);
+  border: 1px solid #2c2347;
+  border-radius: 14px;
+  padding: 20px;
+  cursor: pointer;
+  transition: border-color .15s, transform .1s;
+}
+
+.collection-card:hover {
+  border-color: var(--lt-secondary);
+  transform: translateY(-2px);
+}
+
+.icon { font-size: 1.6rem; }
+
+.collection-card h3 { margin: 10px 0 6px; font-size: 1rem; }
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+}
+
+.modal {
+  background: var(--lt-card);
+  border: 1px solid #2c2347;
+  border-radius: 14px;
+  padding: 24px;
+  width: 320px;
+}
+
+.join-input {
+  width: 100%;
+  background: #0d0a17;
+  border: 1px solid #2c2347;
+  border-radius: 8px;
+  padding: 10px 12px;
+  color: var(--lt-text);
+  margin: 12px 0;
+  font-size: 0.95rem;
+  letter-spacing: .05em;
+}
+
+.error-text { color: var(--lt-error); font-size: 0.8rem; margin-bottom: 8px; }
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.cancel-btn {
+  background: transparent;
+  border: 1px solid #2c2347;
+  color: var(--lt-text-muted);
+  padding: 9px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.confirm-btn {
+  background: linear-gradient(90deg, #7C3AED, #5B21B6);
+  border: none;
+  color: #fff;
+  padding: 9px 14px;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.confirm-btn:disabled { opacity: .5; cursor: not-allowed; }

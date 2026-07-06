@@ -1,0 +1,138 @@
+<section class="page">
+
+  @if (loading()) {
+    <div class="loading-wrap"><span class="loader"></span><p>Cargando...</p></div>
+  } @else if (error()) {
+    <div class="alert-error">{{ error() }}</div>
+  } @else {
+
+    <!-- BREADCRUMB -->
+    <nav class="breadcrumb">
+      <button class="back-btn" (click)="goBack()">← Mis Colecciones</button>
+      <span class="sep">/</span>
+      <span class="current">{{ collection()?.name }}</span>
+    </nav>
+
+    <!-- HEADER -->
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">{{ collection()?.name }}</h1>
+        @if (collection()?.description) {
+          <p class="page-desc">{{ collection()?.description }}</p>
+        }
+      </div>
+    </div>
+
+    <!-- STATS -->
+    <app-collection-stats
+      [topicCount]="topics().length"
+      [groupCount]="groups().length"
+      [activityCount]="totalActivities()">
+    </app-collection-stats>
+
+    <!-- TABS -->
+    <div class="tabs">
+      <button class="tab" [class.active]="activeTab() === 'temas'" (click)="activeTab.set('temas')">
+        📖 Temas ({{ topics().length }})
+      </button>
+      <button class="tab" [class.active]="activeTab() === 'grupos'" (click)="activeTab.set('grupos')">
+        👥 Grupos ({{ groups().length }})
+      </button>
+    </div>
+
+    <!-- TAB: TEMAS -->
+    @if (activeTab() === 'temas') {
+      <div class="tab-content">
+        <div class="section-header">
+          <h2 class="section-title">Temas de la colección</h2>
+          <button class="btn-primary" (click)="showTopicModal.set(true)">+ Agregar Tema</button>
+        </div>
+
+        @if (topics().length === 0) {
+          <div class="empty-state">
+            <span class="empty-icon">📖</span>
+            <p>Esta colección no tiene temas aún.</p>
+            <button class="btn-primary" (click)="showTopicModal.set(true)">Agregar primer tema</button>
+          </div>
+        } @else {
+          <div class="topic-list">
+            @for (topic of topics(); track topic.id; let i = $index) {
+              <div class="topic-row" (click)="goToTopic(topic.id)">
+                <div class="topic-num">{{ i + 1 }}</div>
+                <div class="topic-info">
+                  <span class="topic-name">{{ topic.name }}</span>
+                  @if (topic.description) {
+                    <span class="topic-desc">{{ topic.description }}</span>
+                  }
+                </div>
+                <div class="topic-meta">
+                  <span class="badge">{{ topic.activitiesCount ?? 0 }} act.</span>
+                  <button class="btn-danger" (click)="deleteTopic(topic.id, $event)">🗑</button>
+                  <span class="arrow">→</span>
+                </div>
+              </div>
+            }
+          </div>
+        }
+      </div>
+    }
+
+    <!-- TAB: GRUPOS -->
+    @if (activeTab() === 'grupos') {
+      <div class="tab-content">
+        <div class="section-header">
+          <h2 class="section-title">Grupos vinculados</h2>
+          <button class="btn-primary" (click)="showGroupModal.set(true)">+ Nuevo Grupo</button>
+        </div>
+
+        @if (groups().length === 0) {
+          <div class="empty-state">
+            <span class="empty-icon">👥</span>
+            <p>No hay grupos vinculados a esta colección.</p>
+            <button class="btn-primary" (click)="showGroupModal.set(true)">Crear grupo</button>
+          </div>
+        } @else {
+          <div class="group-grid">
+            @for (group of groups(); track group.id) {
+              <div class="group-card">
+                <div class="group-header">
+                  <span class="group-code">{{ group.code }}</span>
+                  <span class="group-badge">Activo</span>
+                </div>
+                <p class="group-name">{{ group.name }}</p>
+                <p class="group-students">♙ {{ group.studentsCount ?? 0 }} estudiantes</p>
+                <button class="btn-enroll" (click)="enrollGroup.set(group)">📋 Inscribir alumnos</button>
+              </div>
+            }
+          </div>
+        }
+      </div>
+    }
+  }
+
+  <!-- MODALES -->
+  @if (showTopicModal()) {
+    <app-topic-create-modal
+      [collectionName]="collection()?.name ?? ''"
+      (saved)="onTopicCreated($event)"
+      (cancelled)="showTopicModal.set(false)">
+    </app-topic-create-modal>
+  }
+
+  @if (showGroupModal()) {
+    <app-group-create-modal
+      [collectionId]="collectionId()"
+      (saved)="onGroupCreated($event)"
+      (cancelled)="showGroupModal.set(false)">
+    </app-group-create-modal>
+  }
+
+  @if (enrollGroup()) {
+    <app-group-enroll-modal
+      [groupCode]="enrollGroup()!.code"
+      (enrolled)="enrollGroup.set(null)"
+      (cancelled)="enrollGroup.set(null)">
+    </app-group-enroll-modal>
+  }
+
+</section>

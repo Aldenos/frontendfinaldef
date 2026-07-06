@@ -1,0 +1,105 @@
+<div class="page-container">
+  <app-breadcrumb [items]="breadcrumbs"></app-breadcrumb>
+
+  <div class="page-header">
+    <div>
+      <h1>Rutas de Aprendizaje por Grupo</h1>
+      <p class="page-subtitle">Visualiza el progreso y estado de aprendizaje de cada estudiante en el grupo seleccionado.</p>
+    </div>
+  </div>
+
+  <div class="filters-card">
+    <div class="filter-group">
+      <label>Seleccionar Grupo</label>
+      <select class="form-input" [ngModel]="selectedGroupCode()" (ngModelChange)="selectedGroupCode.set($event)">
+        <option value="" disabled>-- Selecciona un grupo --</option>
+        @for (g of groups(); track g.id) {
+          <option [value]="g.code">{{ g.name }} ({{ g.code }})</option>
+        }
+      </select>
+    </div>
+
+    <button class="btn-primary" (click)="fetchData()" [disabled]="!selectedGroupCode() || loading()">
+      @if (loading()) { Cargando... } @else { Ver rutas }
+    </button>
+  </div>
+
+  @if (error()) {
+    <div class="error-banner">{{ error() }}</div>
+  }
+
+  @if (!loading() && paths().length > 0) {
+    <div class="summary-bar">
+      <span class="summary-item">
+        <strong>{{ paths().length }}</strong> rutas encontradas
+      </span>
+      <span class="summary-item">
+        Grupo: <strong>{{ selectedGroupCode() }}</strong>
+      </span>
+    </div>
+  }
+
+  <div class="table-wrap">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Estudiante</th>
+          <th>Colección</th>
+          <th>Progreso General</th>
+          <th>Temas Completados</th>
+          <th>Estado</th>
+        </tr>
+      </thead>
+      <tbody>
+        @if (loading()) {
+          <tr><td colspan="5" class="empty-state">
+            <div class="loading-spinner"></div>
+            Calculando rutas de aprendizaje...
+          </td></tr>
+        } @else if (paths().length === 0) {
+          <tr><td colspan="5" class="empty-state">
+            Selecciona un grupo para ver las rutas de aprendizaje.
+          </td></tr>
+        }
+
+        @for (path of paths(); track path.studentEmail) {
+          <tr>
+            <td>
+              <div class="student-cell">
+                <div class="student-avatar">{{ path.studentName.charAt(0) }}</div>
+                <div>
+                  <strong>{{ path.studentName }}</strong>
+                  <div class="student-email">{{ path.studentEmail }}</div>
+                </div>
+              </div>
+            </td>
+            <td>{{ path.collectionName }}</td>
+            <td>
+              <div class="progress-cell">
+                <div class="progress-bar">
+                  <div class="progress-fill"
+                       [style.width.%]="path.currentPercentage"
+                       [class.fill-good]="path.currentPercentage >= 70"
+                       [class.fill-warn]="path.currentPercentage >= 40 && path.currentPercentage < 70"
+                       [class.fill-bad]="path.currentPercentage < 40">
+                  </div>
+                </div>
+                <span class="progress-label">{{ path.currentPercentage | number:'1.0-0' }}%</span>
+              </div>
+            </td>
+            <td>
+              <span class="topics-badge">
+                {{ path.completedTopics }} / {{ path.totalTopics }} temas
+              </span>
+            </td>
+            <td>
+              <span class="status-chip" [ngClass]="getStatusClass(path.status)">
+                {{ getStatusLabel(path.status) }}
+              </span>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>

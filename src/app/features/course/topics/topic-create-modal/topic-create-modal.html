@@ -1,0 +1,28 @@
+<div class="backdrop" (click)="close()">
+  <div class="modal" (click)="$event.stopPropagation()">
+    <h2 class="modal-title">Nuevo Tema</h2>
+
+    <div class="field">
+      <label>Nombre *</label>
+      <input type="text" [ngModel]="name()" (ngModelChange)="name.set($event)"
+             placeholder="Ej: Recursividad" />
+    </div>
+
+    <div class="field">
+      <label>Descripción <span class="opt">(opcional)</span></label>
+      <textarea rows="3" [ngModel]="description()" (ngModelChange)="description.set($event)"
+                placeholder="Describe brevemente el tema..."></textarea>
+    </div>
+
+    @if (error()) {
+      <p class="error">{{ error() }}</p>
+    }
+
+    <div class="actions">
+      <button class="btn-cancel" (click)="close()" [disabled]="loading()">Cancelar</button>
+      <button class="btn-primary" (click)="submit()" [disabled]="loading()">
+        {{ loading() ? 'Creando...' : 'Crear Tema' }}
+      </button>
+    </div>
+  </div>
+</div>

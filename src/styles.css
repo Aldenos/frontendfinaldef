@@ -1,0 +1,37 @@
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&display=swap');
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Guía de estilos (Branding) - Módulo Estudiante */
+.student-theme {
+  --lt-primary: #372F4C;
+  --lt-secondary: #A78BFA;
+  --lt-bg: #090C08;
+  --lt-bg-soft: #14101F;
+  --lt-card: #161227;
+  --lt-error: #F87171;
+  --lt-success: #88F2F4;
+  --lt-text: #E5E5E5;
+  --lt-text-muted: #9CA3AF;
+  font-family: 'Ubuntu', 'Segoe UI', Roboto, sans-serif;
+  background: var(--lt-bg);
+  color: var(--lt-text);
+  min-height: 100%;
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

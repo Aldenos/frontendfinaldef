@@ -1,0 +1,48 @@
+<div class="editor-page">
+
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Revisar preguntas generadas</h1>
+      <p class="page-subtitle">La IA generó {{ questions().length }} preguntas. Revísalas antes de publicar.</p>
+    </div>
+    <div class="header-actions">
+      <button class="btn-back" (click)="back()">← Volver</button>
+      <button class="btn-publish" (click)="publish()">Publicar actividad ✓</button>
+    </div>
+  </div>
+
+  <div class="questions-list">
+    @for (q of questions(); track q.id) {
+      <div class="question-card" [class.expanded]="expandedId() === q.id">
+
+        <div class="question-header" (click)="toggle(q.id)">
+          <div class="q-number">P{{ q.id }}</div>
+          <p class="q-text">{{ q.question }}</p>
+          <span class="q-toggle">{{ expandedId() === q.id ? '▲' : '▼' }}</span>
+        </div>
+
+        @if (expandedId() === q.id) {
+          <div class="question-body">
+            <div class="options-grid">
+              @for (opt of q.options; track opt; let i = $index) {
+                <div class="option" [class.correct]="i === q.correct">
+                  <span class="option-letter">{{ ['A','B','C','D'][i] }}</span>
+                  <span class="option-text">{{ opt }}</span>
+                  @if (i === q.correct) {
+                    <span class="correct-badge">✓ Correcta</span>
+                  }
+                </div>
+              }
+            </div>
+            <div class="feedback-box">
+              <span class="feedback-label">💡 Retroalimentación</span>
+              <p class="feedback-text">{{ q.feedback }}</p>
+            </div>
+          </div>
+        }
+
+      </div>
+    }
+  </div>
+
+</div>

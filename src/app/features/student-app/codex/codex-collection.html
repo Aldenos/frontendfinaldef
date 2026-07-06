@@ -1,0 +1,27 @@
+<div class="codex-wrap">
+  <button class="back-btn" (click)="goBack()">← The Codex</button>
+  <h1>{{ collectionName() }}</h1>
+  <p class="muted">Selecciona un tema para ver sus actividades, flashcards y tu ruta de aprendizaje</p>
+
+  @if (loading()) {
+    <p class="muted">Cargando temas...</p>
+  } @else if (topics().length === 0) {
+    <p class="muted">Esta colección aún no tiene temas publicados.</p>
+  } @else {
+    <div class="grid">
+      @for (item of topicsWithProgress(); track item.topic.id) {
+        <div class="topic-card" (click)="openTopic(item.topic)">
+          <div class="topic-card-head">
+            <h3>{{ item.topic.name }}</h3>
+            @if (item.completed) { <span class="badge-ok">✓</span> }
+          </div>
+          <p class="muted small">{{ item.topic.description }}</p>
+          <div class="progress-bar">
+            <div class="progress-fill" [style.width.%]="item.mastery" [class.low]="item.mastery < 50"></div>
+          </div>
+          <span class="progress-label">{{ item.mastery }}% dominado</span>
+        </div>
+      }
+    </div>
+  }
+</div>

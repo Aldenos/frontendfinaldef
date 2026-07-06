@@ -1,0 +1,24 @@
+<div class="page-container">
+  <app-breadcrumb [items]="breadcrumbs()"></app-breadcrumb>
+
+  <div class="page-header-centered">
+    <h1>¿Cómo deseas crear la actividad?</h1>
+    <p class="page-subtitle">Elige entre crear manualmente o usar la IA para generar las preguntas y respuestas automáticamente.</p>
+  </div>
+
+  <div class="option-cards">
+    <div class="option-card" (click)="goManual()">
+      <div class="option-icon manual-icon">✍️</div>
+      <h3>De forma manual</h3>
+      <p>Ingresa tus propias preguntas, opciones y retroalimentación de manera 100% personalizada.</p>
+      <button class="btn-outline">Crear manualmente</button>
+    </div>
+
+    <div class="option-card ai-card" (click)="goAI()">
+      <div class="option-icon ai-icon">✨</div>
+      <h3>Con inteligencia artificial</h3>
+      <p>Sube un documento base y deja que nuestra IA genere automáticamente cuestionarios o flashcards por ti.</p>
+      <button class="btn-accent">Generar con IA</button>
+    </div>
+  </div>
+</div>

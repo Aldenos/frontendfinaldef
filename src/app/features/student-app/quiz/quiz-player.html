@@ -1,0 +1,60 @@
+<div class="quiz-wrap">
+
+  @if (loading()) {
+    <p class="muted">Cargando misión...</p>
+  } @else if (errorMsg() && !activity()) {
+    <div class="error-card">
+      <span class="error-icon">⚡</span>
+      <h3>ERROR DE CONEXIÓN</h3>
+      <p>{{ errorMsg() }}</p>
+      <button class="retry-btn" (click)="retryConnection()">↻ REINTENTAR CONEXIÓN</button>
+    </div>
+  } @else if (currentQuestion(); as q) {
+    <div class="breadcrumb">{{ activity()?.topicName }} /</div>
+
+    <div class="progress-bar">
+      <div class="progress-fill" [style.width.%]="((currentIndex()) / total()) * 100"></div>
+    </div>
+    <div class="progress-label">{{ currentIndex() + 1 }} / {{ total() }}</div>
+
+    <div class="question-card">
+      <span class="q-kicker">{{ isVf() ? 'VERDADERO O FALSO' : 'OPCIÓN MÚLTIPLE' }}</span>
+      <p class="q-statement">{{ q.statement }}</p>
+
+      @if (isVf()) {
+        <div class="vf-options">
+          @for (opt of q.options; track opt.text) {
+            <button
+              class="vf-btn"
+              [class.selected]="selectedOptionText() === opt.text"
+              [class.vf-true]="opt.text.toLowerCase() === 'verdadero'"
+              [class.vf-false]="opt.text.toLowerCase() === 'falso'"
+              (click)="select(opt.text)">
+              {{ opt.text.toLowerCase() === 'verdadero' ? '✓' : '✗' }} {{ opt.text }}
+            </button>
+          }
+        </div>
+      } @else {
+        <div class="mc-options">
+          @for (opt of q.options; track opt.text; let i = $index) {
+            <button
+              class="mc-btn"
+              [class.selected]="selectedOptionText() === opt.text"
+              (click)="select(opt.text)">
+              <span class="mc-letter">{{ ['A','B','C','D','E','F'][i] }}</span>
+              {{ opt.text }}
+            </button>
+          }
+        </div>
+      }
+    </div>
+
+    @if (errorMsg()) {
+      <p class="error-inline">{{ errorMsg() }}</p>
+    }
+
+    <button class="confirm-btn" [disabled]="!selectedOptionText() || submitting()" (click)="confirm()">
+      {{ submitting() ? 'Enviando...' : (isLast() ? 'Finalizar Misión →' : 'Siguiente Misión →') }}
+    </button>
+  }
+</div>

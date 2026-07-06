@@ -1,0 +1,69 @@
+<div class="admin-wrapper">
+    <header>
+        <h1>🎓 LearnTrack — Administración</h1>
+        @if (isLoggedIn()) {
+        <button class="btn-logout" (click)="logout()">Cerrar sesión</button>
+        }
+    </header>
+
+    @if (!isLoggedIn()) {
+    <div class="card login-card">
+        <h2>Acceso de Administrador</h2>
+
+        @if (loginError()) {
+        <div class="alert alert-error">{{ loginError() }}</div>
+        }
+
+        <label>Correo institucional</label>
+        <input type="email" [(ngModel)]="email" placeholder="admin@upc.edu.pe" (keyup.enter)="doLogin()" />
+
+        <label>Contraseña</label>
+        <input type="password" [(ngModel)]="password" placeholder="••••••••" (keyup.enter)="doLogin()" />
+
+        <button class="btn-primary" (click)="doLogin()" [disabled]="loadingLogin()">
+            @if (loadingLogin()) { <span class="spinner"></span> Ingresando... }
+            @else { Ingresar }
+        </button>
+    </div>
+    } @else {
+    <div class="panel">
+        <h2>Solicitudes pendientes de activación</h2>
+
+        @if (loadingData()) {
+        <p style="color:#888;padding:20px 0;text-align:center">Cargando solicitudes...</p>
+        } @else if (pendingUsers().length === 0) {
+        <div class="empty-state">✅ No hay solicitudes pendientes de aprobación.</div>
+        } @else {
+        <div class="table-container">
+            <table>
+                <thead>
+                <tr>
+                    <th>Correo</th>
+                    <th>Rol</th>
+                    <th>Estado</th>
+                    <th>Registrado</th>
+                    <th>Acción</th>
+                </tr>
+                </thead>
+                <tbody>
+                @for (u of pendingUsers(); track u.id) {
+                <tr>
+                    <td>{{ u.email }}</td>
+                    <td>{{ u.role }}</td>
+                    <td><span class="badge badge-pending">{{ u.status }}</span></td>
+                    <td>{{ u.createdAt | date:'dd MMM yyyy, HH:mm' }}</td>
+                    <td class="actions">
+                        <button class="btn-approve" (click)="approve(u.id)">✔ Aprobar</button>
+                        <button class="btn-reject" (click)="reject(u.id)">✖ Rechazar</button>
+                    </td>
+                </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+        }
+    </div>
+    }
+
+    <div class="toast" [class.show]="toast().show">{{ toast().msg }}</div>
+</div>

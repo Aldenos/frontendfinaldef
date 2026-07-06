@@ -1,0 +1,27 @@
+<div class="history-wrap">
+  <h1>Historial de Actividades</h1>
+  <p class="muted">Revisa tus resultados anteriores</p>
+
+  @if (loading()) {
+    <p class="muted">Cargando historial...</p>
+  } @else if (results().length === 0) {
+    <p class="muted">Aún no has completado actividades.</p>
+  } @else {
+    <div class="card table-card">
+      <div class="t-head">
+        <span>Actividad</span>
+        <span>Puntaje</span>
+        <span>Correctas</span>
+        <span>Fecha</span>
+      </div>
+      @for (r of results(); track r.id) {
+        <div class="t-row" (click)="openDetail(r)">
+          <span class="t-title">{{ r.activityTitle }}</span>
+          <span class="t-score" [class.ok]="r.score >= 70" [class.bad]="r.score < 70">{{ r.score }}%</span>
+          <span>{{ r.correctAnswers }}/{{ r.totalQuestions }}</span>
+          <span class="muted small">{{ r.completedAt | date:'dd/MM/yyyy HH:mm' }}</span>
+        </div>
+      }
+    </div>
+  }
+</div>

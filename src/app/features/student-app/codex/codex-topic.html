@@ -1,0 +1,41 @@
+<div class="topic-wrap">
+  <button class="back-btn" (click)="goBack()">← {{ collectionName() }}</button>
+
+  @if (loading()) {
+    <p class="muted">Cargando tema...</p>
+  } @else if (topic(); as t) {
+    <h1>{{ t.name }}</h1>
+    <p class="muted">{{ t.description }}</p>
+
+    <div class="action-row">
+      <button class="action-card" (click)="startFeynman()">
+        <span class="action-icon">🧠</span>
+        <span>Feynman Canvas</span>
+      </button>
+      @if (flashcardSet(); as fs) {
+        <button class="action-card" (click)="startFlashcards()">
+          <span class="action-icon">🃏</span>
+          <span>Flashcards ({{ fs.flashcards.length }})</span>
+        </button>
+      }
+    </div>
+
+    <h2 class="section-title">Quizzes disponibles</h2>
+    @if (activities().length === 0) {
+      <p class="muted small">No hay quizzes publicados para este tema todavía.</p>
+    } @else {
+      <div class="quiz-list">
+        @for (a of activities(); track a.id) {
+          <div class="quiz-row" (click)="startQuiz(a)">
+            <span class="quiz-icon">⚡</span>
+            <div class="quiz-info">
+              <strong>{{ a.title }}</strong>
+              <span class="muted small">{{ a.questions?.length || 0 }} preguntas</span>
+            </div>
+            <span class="play-arrow">→</span>
+          </div>
+        }
+      </div>
+    }
+  }
+</div>

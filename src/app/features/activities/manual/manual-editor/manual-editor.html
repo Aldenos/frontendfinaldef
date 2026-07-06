@@ -1,0 +1,89 @@
+<div class="page-container">
+  <app-breadcrumb [items]="breadcrumbs()"></app-breadcrumb>
+
+  <div class="page-header">
+    <h1>Crear Actividad Manual</h1>
+  </div>
+
+  @if (errorMsg()) {
+    <div class="alert alert-error">{{ errorMsg() }}</div>
+  }
+
+  <div class="type-toggle-container">
+    <div class="type-toggle">
+      <button [class.active]="activityType() === 'QUIZ'" (click)="activityType.set('QUIZ')">📝 Cuestionario (Quiz)</button>
+      <button [class.active]="activityType() === 'FLASHCARD'" (click)="activityType.set('FLASHCARD')">🗂️ Tarjetas (Flashcards)</button>
+    </div>
+  </div>
+
+  <div class="form-card">
+    <div class="form-field">
+      <label class="form-label">Título de la Actividad</label>
+      <input class="form-input" placeholder="Ej: Control de Lectura 1 / Conceptos Clave" 
+             [ngModel]="activityTitle()" (ngModelChange)="activityTitle.set($event)" />
+    </div>
+  </div>
+
+  @if (activityType() === 'QUIZ') {
+    <div class="questions-section">
+      @for (q of questions(); track $index; let qIndex = $index) {
+        <div class="item-card">
+          <div class="item-header">
+            <span class="item-num">Pregunta {{ qIndex + 1 }}</span>
+            @if (questions().length > 1) {
+              <button class="btn-icon" (click)="removeQuestion(qIndex)">🗑️</button>
+            }
+          </div>
+          
+          <textarea class="form-textarea" placeholder="Escribe el enunciado de la pregunta..." [(ngModel)]="q.statement"></textarea>
+
+          <div class="options-list">
+            @for (opt of q.options; track $index; let optIndex = $index) {
+              <div class="option-row" [class.correct-row]="opt.correct">
+                <div class="radio-wrap">
+                  <input type="radio" [name]="'q' + qIndex" [checked]="opt.correct" (change)="setCorrectOption(qIndex, optIndex)" />
+                </div>
+                <input class="form-input option-input" placeholder="Escribe la opción..." [(ngModel)]="opt.text" />
+                @if (opt.correct) { <span class="badge badge-success">✓ Correcta</span> }
+              </div>
+            }
+          </div>
+        </div>
+      }
+      <button class="btn-outline-dashed" (click)="addQuestion()">+ Agregar pregunta</button>
+    </div>
+  }
+
+  @if (activityType() === 'FLASHCARD') {
+    <div class="flashcards-section">
+      @for (f of flashcards(); track $index; let fIndex = $index) {
+        <div class="item-card flashcard-row">
+          <div class="item-header">
+            <span class="item-num">Tarjeta {{ fIndex + 1 }}</span>
+            @if (flashcards().length > 1) {
+              <button class="btn-icon" (click)="removeFlashcard(fIndex)">🗑️</button>
+            }
+          </div>
+          <div class="flashcard-inputs">
+            <div class="form-field">
+              <label class="form-label">Concepto (Término)</label>
+              <input class="form-input" placeholder="Ej: Polimorfismo" [(ngModel)]="f.front" />
+            </div>
+            <div class="form-field">
+              <label class="form-label">Definición</label>
+              <textarea class="form-textarea" placeholder="Describe el concepto..." [(ngModel)]="f.back"></textarea>
+            </div>
+          </div>
+        </div>
+      }
+      <button class="btn-outline-dashed" (click)="addFlashcard()">+ Agregar tarjeta</button>
+    </div>
+  }
+
+  <div class="form-actions">
+    <button class="btn-accent" (click)="save()" [disabled]="loading()">
+      {{ loading() ? 'Guardando...' : 'Guardar y Publicar' }}
+    </button>
+    <button class="btn-secondary" (click)="cancel()">Cancelar</button>
+  </div>
+</div>

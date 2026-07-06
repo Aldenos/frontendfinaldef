@@ -1,0 +1,55 @@
+<div class="profile-wrap">
+
+  @if (loading()) {
+    <p class="muted">Cargando perfil...</p>
+  } @else if (profile(); as p) {
+
+    <div class="hero card">
+      <div class="avatar-lg">{{ initials }}</div>
+      <div class="hero-info">
+        <h2>{{ p.firstName }} {{ p.lastName }}</h2>
+        <span class="muted small">{{ p.email }}</span>
+      </div>
+      <div class="streak-block">
+        <span class="streak-num">🔥 {{ streak() }}</span>
+        <span class="muted small">días de racha</span>
+      </div>
+    </div>
+
+    <div class="stats-row">
+      <div class="card stat-card">
+        <span class="stat-icon">🔥</span>
+        <span class="stat-num">{{ streak() }}</span>
+        <span class="muted small">Días de racha</span>
+      </div>
+      <div class="card stat-card">
+        <span class="stat-icon">🎯</span>
+        <span class="stat-num">{{ globalMastery() }}%</span>
+        <span class="muted small">Asimilación Global</span>
+      </div>
+      <div class="card stat-card">
+        <span class="stat-icon">⚔️</span>
+        <span class="stat-num">{{ mainQuests() }}</span>
+        <span class="muted small">Main Quests</span>
+      </div>
+      <div class="card stat-card">
+        <span class="stat-icon">◎</span>
+        <span class="stat-num">{{ sideQuests() }}</span>
+        <span class="muted small">Side Quests</span>
+      </div>
+    </div>
+
+    <div class="card vault-card">
+      <span class="card-label">🏆 EXPLORER'S VAULT — INSIGNIAS</span>
+      <div class="badges-grid">
+        @for (b of badges(); track b.label) {
+          <div class="badge-tile" [class.locked]="!b.unlocked">
+            <span class="badge-icon">{{ b.unlocked ? b.icon : '🔒' }}</span>
+            <span class="badge-label">{{ b.label }}</span>
+          </div>
+        }
+      </div>
+    </div>
+
+  }
+</div>

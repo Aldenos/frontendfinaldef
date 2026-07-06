@@ -1,0 +1,16 @@
+.badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+  letter-spacing: 0.3px;
+  font-family: 'Ubuntu', sans-serif;
+}
+
+.badge-success { background-color: #E8F8F0; color: #2D7D52; }
+.badge-warning { background-color: #FFF3E0; color: #C0850A; }
+.badge-danger  { background-color: #FDECEA; color: #C0392B; }
+.badge-gray    { background-color: #F0F0F0; color: #666666; }
+.badge-purple  { background-color: #EDE9F7; color: #7C5CBF; }

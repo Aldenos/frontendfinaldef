@@ -1,0 +1,166 @@
+.upload-page {
+  padding: 40px 48px;
+  max-width: 700px;
+}
+
+.page-header {
+  margin-bottom: 32px;
+}
+
+.page-title {
+  font-size: 26px;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 8px;
+}
+
+.page-subtitle {
+  color: #8A859E;
+  font-size: 14px;
+  margin: 0;
+}
+
+.upload-card {
+  background: #1E1B2E;
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 16px;
+  padding: 36px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.drop-zone {
+  border: 2px dashed rgba(124, 92, 191, 0.35);
+  border-radius: 12px;
+  padding: 48px 24px;
+  text-align: center;
+  transition: border-color 0.2s, background 0.2s;
+  cursor: pointer;
+}
+
+.drop-zone.drag-over {
+  border-color: #7C5CBF;
+  background: rgba(124, 92, 191, 0.08);
+}
+
+.drop-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.drop-icon {
+  font-size: 40px;
+}
+
+.drop-title {
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.drop-hint {
+  color: #8A859E;
+  font-size: 13px;
+  margin: 0 0 8px;
+}
+
+.btn-select {
+  display: inline-block;
+  padding: 9px 22px;
+  background: rgba(124, 92, 191, 0.2);
+  border: 1px solid rgba(124, 92, 191, 0.5);
+  border-radius: 8px;
+  color: #B8F2F4;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-select:hover {
+  background: rgba(124, 92, 191, 0.35);
+}
+
+.file-selected {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.file-icon {
+  font-size: 28px;
+}
+
+.file-info {
+  flex: 1;
+  text-align: left;
+}
+
+.file-name {
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0 0 4px;
+  word-break: break-all;
+}
+
+.file-size {
+  color: #8A859E;
+  font-size: 12px;
+  margin: 0;
+}
+
+.btn-remove {
+  background: rgba(229, 57, 53, 0.15);
+  border: 1px solid rgba(229, 57, 53, 0.3);
+  border-radius: 6px;
+  color: #ef9a9a;
+  font-size: 14px;
+  padding: 6px 10px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-remove:hover {
+  background: rgba(229, 57, 53, 0.3);
+}
+
+.supported {
+  display: flex;
+  gap: 10px;
+}
+
+.chip {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 20px;
+  padding: 5px 14px;
+  color: #8A859E;
+  font-size: 12px;
+}
+
+.btn-process {
+  width: 100%;
+  padding: 14px;
+  background: #7C5CBF;
+  border: none;
+  border-radius: 10px;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, opacity 0.2s;
+}
+
+.btn-process:hover:not(:disabled) {
+  background: #9370DB;
+}
+
+.btn-process:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}

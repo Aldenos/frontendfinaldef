@@ -1,0 +1,52 @@
+.admin-wrapper {
+    background: #f0f2f5;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+header { width: 100%; background: #1a237e; color: #fff; padding: 14px 32px; display: flex; justify-content: space-between; align-items: center; }
+header h1 { font-size: 1.2rem; margin: 0; }
+.btn-logout { background: rgba(255,255,255,.15); border: 1px solid rgba(255,255,255,.4); color: #fff; padding: 6px 16px; border-radius: 6px; cursor: pointer; font-size: .85rem; }
+.btn-logout:hover { background: rgba(255,255,255,.25); }
+
+.card { background: #fff; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,.1); padding: 36px 40px; width: 100%; max-width: 420px; margin-top: 60px; }
+.card h2 { color: #1a237e; margin: 0 0 24px 0; font-size: 1.3rem; }
+
+label { display: block; font-size: .85rem; color: #555; margin-bottom: 4px; }
+input { width: 100%; padding: 10px 14px; border: 1px solid #ccc; border-radius: 8px; font-size: .95rem; margin-bottom: 16px; transition: border-color .2s; }
+input:focus { outline: none; border-color: #1a237e; }
+
+.btn-primary { width: 100%; padding: 11px; background: #1a237e; color: #fff; border: none; border-radius: 8px; font-size: 1rem; cursor: pointer; }
+.btn-primary:hover:not(:disabled) { background: #283593; }
+.btn-primary:disabled { background: #9fa8da; cursor: not-allowed; }
+
+.alert { padding: 10px 14px; border-radius: 8px; font-size: .88rem; margin-bottom: 14px; }
+.alert-error { background: #fdecea; color: #c62828; border: 1px solid #ef9a9a; }
+
+.panel { width: 100%; max-width: 860px; margin: 40px auto; padding: 0 16px; }
+.panel h2 { color: #1a237e; margin-bottom: 20px; font-size: 1.25rem; }
+
+.empty-state { text-align: center; color: #888; padding: 50px 0; background: #fff; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,.08); }
+
+.table-container { background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,.08); width: 100%; overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; }
+thead { background: #1a237e; color: #fff; }
+th, td { padding: 13px 16px; text-align: left; font-size: .88rem; }
+tbody tr { border-bottom: 1px solid #f0f0f0; transition: background .15s; }
+tbody tr:hover { background: #f5f7ff; }
+
+.badge { padding: 3px 10px; border-radius: 20px; font-weight: 600; font-size: .78rem; }
+.badge-pending { background: #fff3e0; color: #e65100; }
+
+.actions { display: flex; gap: 8px; }
+.btn-approve, .btn-reject { padding: 6px 14px; border: none; border-radius: 6px; font-size: .82rem; cursor: pointer; font-weight: 600; }
+.btn-approve { background: #43a047; color: #fff; }
+.btn-reject { background: #e53935; color: #fff; }
+
+.toast { position: fixed; bottom: 28px; right: 28px; background: #323232; color: #fff; padding: 12px 22px; border-radius: 8px; font-size: .88rem; opacity: 0; pointer-events: none; transition: opacity .3s; z-index: 999; }
+.toast.show { opacity: 1; }
+.spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid rgba(255,255,255,.4); border-top-color: #fff; border-radius: 50%; animation: spin .6s linear infinite; vertical-align: middle; margin-right: 6px; }
+@keyframes spin { to { transform: rotate(360deg); } }

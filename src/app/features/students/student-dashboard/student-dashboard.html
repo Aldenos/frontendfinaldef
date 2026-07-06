@@ -1,0 +1,95 @@
+<section class="students-page">
+  <header class="page-header">
+    <div>
+      <h1>Estudiantes</h1>
+      <p class="subtitle">Organiza tus temas y accede a la información de cada colección</p>
+      <p class="description">Gestiona tus secciones y alumnos inscritos</p>
+    </div>
+
+    <button class="primary-button" type="button" (click)="openModal()">
+      + Nuevo grupo
+    </button>
+  </header>
+
+  <div class="groups-grid">
+    <article class="group-card" *ngFor="let group of groups()">
+      <div class="card-header">
+        <h2>{{ group.code }}</h2>
+
+        <span
+          class="status"
+          [class.critical]="group.status === 'Nivel Crítico'"
+        >
+          {{ group.status }}
+        </span>
+      </div>
+
+      <p class="collection">📚 Colección: {{ group.collection }}</p>
+      <p class="students">♙ {{ group.students }} Estudiantes</p>
+
+      <div class="card-actions">
+        <button class="outline-button" type="button">
+          📋 Ver Lista
+        </button>
+
+        <button class="stats-button" type="button">
+          📊 Estadísticas
+        </button>
+      </div>
+    </article>
+  </div>
+</section>
+
+<div class="modal-backdrop" *ngIf="showModal()">
+  <div class="modal">
+    <h2>Crear Nuevo Grupo</h2>
+
+    <label>
+      Nombre / Código del Grupo
+      <input
+        type="text"
+        placeholder="Ej. CC71 o Grupo A"
+        [ngModel]="groupCode()"
+        (ngModelChange)="onGroupCodeChange($event)"
+        [class.error-input]="duplicateError()"
+      />
+    </label>
+
+    <p class="error-message" *ngIf="duplicateError()">
+      ⚠ Este identificador ya está en uso
+    </p>
+
+    <label>
+      Vincular a Colección
+      <select
+        [ngModel]="selectedCollection()"
+        (ngModelChange)="selectedCollection.set($event)"
+      >
+        <option value="">Choose option...</option>
+        <option *ngFor="let collection of collections" [value]="collection">
+          {{ collection }}
+        </option>
+      </select>
+    </label>
+
+    <label>
+      Inscripción de Alumnos
+      <textarea
+        rows="5"
+        placeholder="Pega los correos de los alumnos, uno por línea"
+        [ngModel]="studentsText()"
+        (ngModelChange)="studentsText.set($event)"
+      ></textarea>
+    </label>
+
+    <div class="modal-actions">
+      <button class="cancel-button" type="button" (click)="closeModal()">
+        Cancelar
+      </button>
+
+      <button class="primary-button" type="button" (click)="createGroup()">
+        ✓ Crear Grupo
+      </button>
+    </div>
+  </div>
+</div>

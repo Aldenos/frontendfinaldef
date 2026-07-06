@@ -1,0 +1,68 @@
+<div class="feynman-wrap">
+
+  @if (loading()) {
+    <p class="muted">Cargando...</p>
+  } @else if (!submitted()) {
+    <div class="breadcrumb">{{ topic()?.name }} /</div>
+
+    <div class="feynman-grid">
+      <aside class="side-panel card">
+        <span class="card-label">✎ Puntos Clave a Mencionar</span>
+        <ul class="key-points">
+          @for (kp of keyPoints(); track kp) {
+            <li>{{ kp }}</li>
+          }
+        </ul>
+
+        <span class="card-label resource-label">📗 RECURSO DE APOYO</span>
+        <p class="resource-text">Piensa en este tema como algo cotidiano. Si tuvieras que explicárselo a alguien sin conocimientos previos, ¿qué ejemplo usarías?</p>
+      </aside>
+
+      <div class="canvas-panel card">
+        <textarea
+          class="canvas-text"
+          rows="12"
+          placeholder="Escribe aquí tu explicación, como si se la enseñaras a otra persona..."
+          [ngModel]="explanation()"
+          (ngModelChange)="explanation.set($event)">
+        </textarea>
+        <div class="canvas-footer">
+          <span class="muted small">{{ checksPassed() }}/{{ keyPoints().length }} puntos clave detectados</span>
+          <button class="finish-btn" [disabled]="explanation().trim().length < 20" (click)="finish()">Finalizar Explicación ✓</button>
+        </div>
+      </div>
+    </div>
+
+  } @else {
+    <div class="result-card">
+      <div class="banner-info">✎ Explicación Enviada — Auto-Check de IA</div>
+
+      <div class="feynman-grid">
+        <div class="card">
+          <span class="card-label">Tu Explicación</span>
+          <p class="explanation-preview">{{ explanation() }}</p>
+        </div>
+
+        <div class="card">
+          <span class="card-label">Auto-Check de IA</span>
+          @for (c of checks(); track c.label) {
+            <div class="check-row">
+              <span [class.ok]="c.found" [class.pending]="!c.found">{{ c.found ? '✓' : '○' }}</span>
+              <span>{{ c.label }}</span>
+            </div>
+          }
+          <div class="ai-note">
+            @if (checksPassed() === keyPoints().length) {
+              ¡Excelente! Tu explicación cubre todos los puntos clave.
+            } @else {
+              Tu explicación es buena, pero asegúrate de mencionar los puntos pendientes.
+            }
+          </div>
+        </div>
+      </div>
+
+      <span class="xp-earned">⚡ +20 XP de Feynman Canvas</span>
+      <button class="lobby-btn" (click)="goToLobby()">↩ Volver al Dashboard</button>
+    </div>
+  }
+</div>

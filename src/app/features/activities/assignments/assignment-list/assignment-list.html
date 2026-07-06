@@ -1,0 +1,46 @@
+<section class="assignments-page">
+  <header class="page-header">
+    <div>
+      <h1>Asignaciones</h1>
+      <p>Gestiona las actividades asignadas a tus grupos.</p>
+    </div>
+
+    <button class="primary-button" type="button" (click)="openModal()">
+      + Asignar actividad
+    </button>
+  </header>
+
+  <section class="table-card">
+    <h2>Lista de asignaciones</h2>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Actividad</th>
+          <th>Colección</th>
+          <th>Grupo</th>
+          <th>Fecha límite</th>
+          <th>Estado</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let assignment of assignments()">
+          <td>{{ assignment.activity }}</td>
+          <td>{{ assignment.collection }}</td>
+          <td>{{ assignment.group }}</td>
+          <td>{{ assignment.dueDate }}</td>
+          <td>
+            <span class="status-pill">{{ assignment.status }}</span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+</section>
+
+<app-assign-activity-modal
+  *ngIf="showModal()"
+  (closeModal)="closeModal()"
+  (assignmentCreated)="addAssignment($event)"
+></app-assign-activity-modal>

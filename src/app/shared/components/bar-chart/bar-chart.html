@@ -1,0 +1,42 @@
+<div class="chart-container">
+  @if (title() || subtitle()) {
+    <div class="chart-header">
+      @if (title()) { <h3 class="chart-title">{{ title() }}</h3> }
+      @if (subtitle()) { <p class="chart-sub">{{ subtitle() }}</p> }
+    </div>
+  }
+
+  <div class="chart-body">
+    @for (group of data(); track group.label) {
+      <div class="chart-group">
+        <div class="bars-wrapper">
+          @for (val of group.values; track $index) {
+            <div class="bar-item">
+              <span class="bar-value">{{ val }}{{ maxValue() === 100 ? '%' : '' }}</span>
+              <div class="bar-fill"
+                   [style.height.%]="(val / maxValue()) * 100"
+                   [style.background]="series()[$index]?.color || '#7C5CBF'">
+              </div>
+            </div>
+          }
+        </div>
+        <span class="group-label">{{ group.label }}</span>
+      </div>
+    }
+    
+    @if (data().length === 0) {
+      <div class="empty-state">No hay suficientes datos registrados.</div>
+    }
+  </div>
+
+  @if (series().length > 0 && data().length > 0) {
+    <div class="chart-legend">
+      @for (s of series(); track s.name) {
+        <div class="legend-item">
+          <span class="legend-dot" [style.background]="s.color"></span>
+          <span class="legend-label">{{ s.name }}</span>
+        </div>
+      }
+    </div>
+  }
+</div>
