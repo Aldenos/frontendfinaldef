@@ -42,10 +42,10 @@ export class ActivityService {
   }
 
   // IA (AI Controller) — POST /api/v1/ai/upload-activity
-  uploadFileForAI(topicId: number, topicName: string, file: File, types: string[]): Observable<any> {
+  uploadFileForAI(topicId: number, file: File, types: string[]): Observable<any> {
     const formData = new FormData();
     formData.append('file', file);
-    formData.append('topicName', topicName);
+    formData.append('topicId', String(topicId));
     types.forEach(t => formData.append('types', t));
     return this.http.post(`${environment.apiUrl}/ai/upload-activity`, formData);
   }

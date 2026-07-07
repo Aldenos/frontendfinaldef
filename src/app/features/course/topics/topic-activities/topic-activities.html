@@ -59,6 +59,7 @@
       [topicId]="topicId()"
       [topicName]="topicName()"
       (saved)="onActivityCreated($event)"
+      (generated)="load()"
       (cancelled)="showCreateModal.set(false)">
     </app-activity-create-modal>
   }

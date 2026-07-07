@@ -20,6 +20,7 @@ export class ActivityCreateModalComponent {
   topicName  = input.required<string>();
   saved      = output<Activity>();
   cancelled  = output<void>();
+  generated  = output<void>();
 
   tab         = signal<Tab>('manual');
   actType     = signal<ActivityType>('QUIZ');
@@ -181,10 +182,11 @@ export class ActivityCreateModalComponent {
     if (typesList.length === 0) { this.error.set('Selecciona al menos un tipo a generar.'); return; }
 
     this.loading.set(true);
-    this.svc.uploadFileForAI(this.topicId(), this.topicName(), file, typesList).subscribe({
+    this.svc.uploadFileForAI(this.topicId(), file, typesList).subscribe({
       next: () => {
         this.loading.set(false);
         this.successMsg.set('¡Actividades generadas con IA! Revisa la lista.');
+        this.generated.emit();
         setTimeout(() => this.cancelled.emit(), 2000);
       },
       error: (e) => {
