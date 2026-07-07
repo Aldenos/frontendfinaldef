@@ -129,6 +129,39 @@
 .badge-progress  { background: #FEF9C3; color: #854D0E; }
 .badge-pending   { background: #F3F4F6; color: #6B7280; }
 
+.estado-critico { background: #FEE2E2; color: #B91C1C; }
+.estado-bajo    { background: #FEF3C7; color: #92400E; }
+.estado-optimo  { background: #DCFCE7; color: #166534; }
+
+.gaps-header { margin-top: 32px; }
+
+.gap-row { cursor: pointer; transition: background 0.15s; }
+.gap-row:hover { background: #FAF8FF; }
+
+.subtopic-row td {
+  background: #FBFAFF;
+  font-size: 12.5px;
+}
+
+.subtopic-name {
+  padding-left: 28px;
+  color: #6B7280;
+}
+
+.btn-outline {
+  background: white;
+  border: 1.5px solid #7C5CBF;
+  color: #7C5CBF;
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: 'Ubuntu', sans-serif;
+  transition: background 0.15s;
+}
+.btn-outline:hover { background: #F0EBFF; }
+
 .loading-spinner {
   display: inline-block;
   width: 18px;

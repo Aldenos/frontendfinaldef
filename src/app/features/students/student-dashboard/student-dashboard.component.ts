@@ -151,7 +151,10 @@ export class StudentDashboardComponent implements OnInit {
         this.loadingStudents.set(true);
         this.groupSvc.getStudentsByGroupCode(group.code).subscribe({
             next: (students) => { this.groupStudents.set(students); this.loadingStudents.set(false); },
-            error: () => { this.studentsError.set('No se pudo cargar el listado de alumnos.'); this.loadingStudents.set(false); }
+            error: (e) => {
+                this.studentsError.set(e?.error?.message || 'No se pudo cargar el listado de alumnos.');
+                this.loadingStudents.set(false);
+            }
         });
     }
 

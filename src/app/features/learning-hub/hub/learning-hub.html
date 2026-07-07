@@ -102,4 +102,81 @@
       </tbody>
     </table>
   </div>
+
+  @if (selectedGroupCode() && !loading()) {
+    <div class="page-header gaps-header">
+      <div>
+        <h2>Temas del Grupo</h2>
+        <p class="page-subtitle">Desglose de puntos ciegos por tema y subtema. Haz clic en un tema para ver el detalle.</p>
+      </div>
+    </div>
+
+    @if (topicGapsError()) {
+      <div class="error-banner">{{ topicGapsError() }}</div>
+    }
+
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Tema</th>
+            <th>Nivel de Asimilación</th>
+            <th>Estado</th>
+            <th>Acción</th>
+          </tr>
+        </thead>
+        <tbody>
+          @if (!topicGapsError() && topicGaps().length === 0) {
+            <tr><td colspan="4" class="empty-state">
+              No hay resultados registrados para este grupo todavía.
+            </td></tr>
+          }
+
+          @for (row of topicGaps(); track row.topicName) {
+            <tr class="gap-row" (click)="toggleTopic(row.topicName)">
+              <td><strong>{{ row.topicName }}</strong></td>
+              <td>
+                <div class="progress-cell">
+                  <div class="progress-bar">
+                    <div class="progress-fill"
+                         [style.width.%]="row.averageMastery"
+                         [class.fill-good]="row.averageMastery >= 70"
+                         [class.fill-warn]="row.averageMastery >= 50 && row.averageMastery < 70"
+                         [class.fill-bad]="row.averageMastery < 50">
+                    </div>
+                  </div>
+                  <span class="progress-label">{{ row.averageMastery | number:'1.0-0' }}%</span>
+                </div>
+              </td>
+              <td>
+                <span class="status-chip" [ngClass]="estadoClass(row.estado)">{{ row.estado }}</span>
+              </td>
+              <td>
+                <button class="btn-outline" (click)="goToCreateActivity(row); $event.stopPropagation()">
+                  Ver Recurso Sugerido
+                </button>
+              </td>
+            </tr>
+            @if (expandedTopic() === row.topicName) {
+              @if (row.subtopics.length === 0) {
+                <tr class="subtopic-row">
+                  <td colspan="4" class="empty-state">No hay subtemas con dificultad detectada en este tema.</td>
+                </tr>
+              } @else {
+                @for (st of row.subtopics; track st.subTopicName) {
+                  <tr class="subtopic-row">
+                    <td class="subtopic-name">↳ {{ st.subTopicName }}</td>
+                    <td colspan="2">
+                      <span class="status-chip estado-bajo">{{ st.errorRate | number:'1.0-0' }}% de alumnos fallaron</span>
+                    </td>
+                    <td></td>
+                  </tr>
+                }
+              }
+            }
+          }
+        </tbody>
+      </table>
+    </div>
+  }
 </div>
