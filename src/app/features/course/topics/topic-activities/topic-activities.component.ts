@@ -1,5 +1,7 @@
 import { Component, inject, signal, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { forkJoin, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { ActivityService } from '../../../../core/services/activity.service';
 import { TopicService } from '../../../../core/services/topic.service';
 import { Activity } from '../../../../shared/models/activity.model';
@@ -42,8 +44,22 @@ export class TopicActivitiesComponent implements OnInit {
 
   load() {
     this.loading.set(true);
-    this.actSvc.getByTopic(this.topicId()).subscribe({
-      next: (data) => { this.activities.set(data); this.loading.set(false); },
+    forkJoin({
+      quizzes: this.actSvc.getByTopic(this.topicId()).pipe(catchError(() => of([] as Activity[]))),
+      flashcardSets: this.actSvc.getFlashcardSetsByTopic(this.topicId()).pipe(catchError(() => of([])))
+    }).subscribe({
+      next: ({ quizzes, flashcardSets }) => {
+        const flashcardActivities: Activity[] = flashcardSets.map(fs => ({
+          id: fs.id,
+          title: fs.title,
+          type: 'FLASHCARD',
+          status: 'PUBLISHED',
+          generatedByAi: fs.generatedByAi ?? false,
+          topicId: this.topicId()
+        }));
+        this.activities.set([...quizzes, ...flashcardActivities]);
+        this.loading.set(false);
+      },
       error: () => { this.error.set('No se pudieron cargar las actividades.'); this.loading.set(false); }
     });
   }

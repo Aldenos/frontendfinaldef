@@ -37,6 +37,10 @@ export class ActivityService {
     return this.http.post<FlashcardSet>(`${environment.apiUrl}/topics/${topicId}/flashcard-sets`, dto);
   }
 
+  getFlashcardSetsByTopic(topicId: number): Observable<FlashcardSet[]> {
+    return this.http.get<FlashcardSet[]>(`${environment.apiUrl}/topics/${topicId}/flashcard-sets`);
+  }
+
   // IA (AI Controller) — POST /api/v1/ai/upload-activity
   uploadFileForAI(topicId: number, topicName: string, file: File, types: string[]): Observable<any> {
     const formData = new FormData();
