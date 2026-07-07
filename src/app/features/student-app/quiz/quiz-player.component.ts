@@ -77,8 +77,8 @@ export class QuizPlayerComponent implements OnInit {
       next: (detail) => {
         this.router.navigate(['/estudiantes/resultados', detail.id]);
       },
-      error: () => {
-        this.errorMsg.set('Error de conexión. Tus respuestas se guardaron localmente, reintenta el envío.');
+      error: (e) => {
+        this.errorMsg.set(e?.error?.message || 'Error de conexión. Tus respuestas se guardaron localmente, reintenta el envío.');
         this.submitting.set(false);
       }
     });
