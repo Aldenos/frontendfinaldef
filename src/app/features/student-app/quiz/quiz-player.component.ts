@@ -66,14 +66,14 @@ export class QuizPlayerComponent implements OnInit {
 
   private submit(): void {
     const a = this.activity();
-    if (!a || !a.topicName) {
-      this.errorMsg.set('No se pudo determinar el tema de la actividad.');
+    if (!a || !a.id) {
+      this.errorMsg.set('No se pudo determinar la actividad.');
       return;
     }
     this.submitting.set(true);
     const timeSpentSeconds = Math.round((Date.now() - this.startedAt) / 1000);
 
-    this.resultSvc.submit(a.topicName, a.title, { timeSpentSeconds, answers: this.answers }).subscribe({
+    this.resultSvc.submit(a.id, { timeSpentSeconds, answers: this.answers }).subscribe({
       next: (detail) => {
         this.router.navigate(['/estudiantes/resultados', detail.id]);
       },

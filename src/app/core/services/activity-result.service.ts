@@ -28,10 +28,7 @@ export class ActivityResultService {
     return this.http.get<ActivityResultDetail>(`${this.apiUrl}/results/${resultId}`);
   }
 
-  submit(topicName: string, activityTitle: string, dto: ActivityResultSubmitDto): Observable<ActivityResultDetail> {
-    return this.http.post<ActivityResultDetail>(
-      `${this.apiUrl}/topics/${encodeURIComponent(topicName)}/activities/${encodeURIComponent(activityTitle)}/submit`,
-      dto
-    );
+  submit(activityId: number, dto: ActivityResultSubmitDto): Observable<ActivityResultDetail> {
+    return this.http.post<ActivityResultDetail>(`${this.apiUrl}/activities/${activityId}/submit`, dto);
   }
 }
