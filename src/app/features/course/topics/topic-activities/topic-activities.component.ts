@@ -63,6 +63,14 @@ export class TopicActivitiesComponent implements OnInit {
     });
   }
 
+  publishActivity(act: Activity, event: Event) {
+    event.stopPropagation();
+    this.actSvc.publishActivity(act).subscribe({
+      next: (updated) => this.activities.update(list => list.map(a => a.id === updated.id ? updated : a)),
+      error: () => alert('Error al publicar la actividad.')
+    });
+  }
+
   goBack() {
     this.router.navigate(['/docentes/colecciones', this.collectionId()]);
   }

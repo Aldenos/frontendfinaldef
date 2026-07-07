@@ -17,6 +17,17 @@ export class ActivityService {
     return this.http.post<Activity>(`${environment.apiUrl}/topics/${topicId}/activities`, dto);
   }
 
+  publishActivity(activity: Activity): Observable<Activity> {
+    const dto = {
+      title: activity.title,
+      description: activity.description,
+      type: activity.type,
+      status: 'PUBLISHED',
+      generatedByAi: activity.generatedByAi
+    };
+    return this.http.put<Activity>(`${environment.apiUrl}/activities/${activity.id}`, dto);
+  }
+
   deleteActivity(activityId: number): Observable<void> {
     return this.http.delete<void>(`${environment.apiUrl}/activities/${activityId}`);
   }

@@ -42,6 +42,9 @@
             <span class="status-badge" [class.published]="act.status === 'PUBLISHED'">
               {{ act.status === 'PUBLISHED' ? 'Publicado' : 'Borrador' }}
             </span>
+            @if (act.status !== 'PUBLISHED') {
+              <button class="btn-publish" (click)="publishActivity(act, $event)">Publicar</button>
+            }
             <button class="btn-delete" (click)="deleteActivity(act.id!, $event)">🗑</button>
           </div>
         </div>
