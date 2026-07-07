@@ -63,7 +63,11 @@ export class CodexListComponent implements OnInit {
         this.loadCollections();
       },
       error: (e) => {
-        this.joinError.set(e?.error?.message || 'Código inválido o expirado.');
+        if (e?.status === 403) {
+          this.joinError.set('Tu cuenta no tiene permisos de estudiante. Si te registraste por error como docente, crea una cuenta nueva eligiendo "Estudiante".');
+        } else {
+          this.joinError.set(e?.error?.message || 'Código inválido o expirado.');
+        }
         this.joining.set(false);
       }
     });

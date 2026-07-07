@@ -19,7 +19,7 @@ export class RegisterComponent {
   step = signal<1 | 2>(1); // 1: Formulario, 2: Mensaje de éxito
   loading = signal(false);
   serverError = signal('');
-  role = signal<'DOCENTE' | 'ESTUDIANTE'>('DOCENTE');
+  role = signal<'DOCENTE' | 'ESTUDIANTE'>('ESTUDIANTE');
 
   toggleRole(): void {
     this.role.set(this.role() === 'DOCENTE' ? 'ESTUDIANTE' : 'DOCENTE');

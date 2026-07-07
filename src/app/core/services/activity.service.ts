@@ -23,7 +23,7 @@ export class ActivityService {
 
   // Flashcards (FlashcardController)
   createFlashcardSet(topicId: number, dto: FlashcardSet): Observable<FlashcardSet> {
-    return this.http.post<FlashcardSet>(`${environment.apiUrl}/topics/${topicId}/flashcards`, dto);
+    return this.http.post<FlashcardSet>(`${environment.apiUrl}/topics/${topicId}/flashcard-sets`, dto);
   }
 
   // IA (AI Controller) — POST /api/v1/ai/upload-activity
