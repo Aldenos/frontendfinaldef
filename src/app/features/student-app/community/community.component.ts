@@ -19,7 +19,7 @@ export class CommunityComponent implements OnInit {
   collections = signal<Collection[]>([]);
 
   ngOnInit(): void {
-    this.collectionSvc.getAll().subscribe({
+    this.collectionSvc.getEnrolled().subscribe({
       next: (c) => { this.collections.set(c); this.loading.set(false); },
       error: () => { this.loading.set(false); }
     });

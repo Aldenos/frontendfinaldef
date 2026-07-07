@@ -26,7 +26,7 @@ export class CollectionListComponent implements OnInit {
 
   load() {
     this.loading.set(true);
-    this.collectionSvc.getAll().subscribe({
+    this.collectionSvc.getMine().subscribe({
       next: (data) => { this.collections.set(data); this.loading.set(false); },
       error: () => { this.error.set('No se pudieron cargar las colecciones.'); this.loading.set(false); }
     });

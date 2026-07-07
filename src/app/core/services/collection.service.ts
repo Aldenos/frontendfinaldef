@@ -13,6 +13,10 @@ export class CollectionService {
     return this.http.get<Collection[]>(`${this.apiUrl}/collections`);
   }
 
+  getMine(): Observable<Collection[]> {
+    return this.http.get<Collection[]>(`${this.apiUrl}/collections/mine`);
+  }
+
   getEnrolled(): Observable<Collection[]> {
     return this.http.get<Collection[]>(`${this.apiUrl}/collections/enrolled`);
   }

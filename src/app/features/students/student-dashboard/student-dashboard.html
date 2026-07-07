@@ -11,31 +11,42 @@
     </button>
   </header>
 
-  <div class="groups-grid">
+  <p class="error-banner" *ngIf="loadError()">{{ loadError() }}</p>
+
+  <p class="loading-text" *ngIf="loading()">Cargando grupos...</p>
+
+  <div class="empty" *ngIf="!loading() && groups().length === 0">
+    <p>Aún no tienes grupos creados.</p>
+    <button class="primary-button" type="button" (click)="openModal()">Crear tu primer grupo</button>
+  </div>
+
+  <div class="groups-grid" *ngIf="!loading() && groups().length > 0">
     <article class="group-card" *ngFor="let group of groups()">
       <div class="card-header">
         <h2>{{ group.code }}</h2>
-
-        <span
-          class="status"
-          [class.critical]="group.status === 'Nivel Crítico'"
-        >
-          {{ group.status }}
-        </span>
+        <span class="status">Activo</span>
       </div>
 
-      <p class="collection">📚 Colección: {{ group.collection }}</p>
-      <p class="students">♙ {{ group.students }} Estudiantes</p>
+      <p class="collection">📚 Colección: {{ collectionName(group) }}</p>
+      <p class="students">♙ {{ group.studentsCount ?? 0 }} Estudiantes</p>
 
       <div class="card-actions">
-        <button class="outline-button" type="button">
-          📋 Ver Lista
+        <button class="outline-button" type="button" (click)="enrollGroup.set(group)">
+          📋 Inscribir alumnos
         </button>
 
-        <button class="stats-button" type="button">
-          📊 Estadísticas
+        <button
+          class="stats-button"
+          type="button"
+          [disabled]="generatingCodeFor() === group.id"
+          (click)="generateJoinCode(group)">
+          🔑 {{ generatingCodeFor() === group.id ? 'Generando...' : 'Generar código' }}
         </button>
       </div>
+
+      <button class="link-button" type="button" (click)="goToCollection(group)">
+        Ver colección →
+      </button>
     </article>
   </div>
 </section>
@@ -44,11 +55,23 @@
   <div class="modal">
     <h2>Crear Nuevo Grupo</h2>
 
+    <p class="error-message" *ngIf="modalError()">⚠ {{ modalError() }}</p>
+
     <label>
-      Nombre / Código del Grupo
+      Nombre del Grupo
       <input
         type="text"
-        placeholder="Ej. CC71 o Grupo A"
+        placeholder="Ej. Grupo A"
+        [ngModel]="groupName()"
+        (ngModelChange)="groupName.set($event)"
+      />
+    </label>
+
+    <label>
+      Código del Grupo
+      <input
+        type="text"
+        placeholder="Ej. CC71"
         [ngModel]="groupCode()"
         (ngModelChange)="onGroupCodeChange($event)"
         [class.error-input]="duplicateError()"
@@ -56,30 +79,20 @@
     </label>
 
     <p class="error-message" *ngIf="duplicateError()">
-      ⚠ Este identificador ya está en uso
+      ⚠ Este código ya está en uso
     </p>
 
     <label>
       Vincular a Colección
       <select
-        [ngModel]="selectedCollection()"
-        (ngModelChange)="selectedCollection.set($event)"
+        [ngModel]="selectedCollectionId()"
+        (ngModelChange)="selectedCollectionId.set($event)"
       >
-        <option value="">Choose option...</option>
-        <option *ngFor="let collection of collections" [value]="collection">
-          {{ collection }}
+        <option [ngValue]="null">Elige una colección...</option>
+        <option *ngFor="let collection of collections()" [ngValue]="collection.id">
+          {{ collection.name }}
         </option>
       </select>
-    </label>
-
-    <label>
-      Inscripción de Alumnos
-      <textarea
-        rows="5"
-        placeholder="Pega los correos de los alumnos, uno por línea"
-        [ngModel]="studentsText()"
-        (ngModelChange)="studentsText.set($event)"
-      ></textarea>
     </label>
 
     <div class="modal-actions">
@@ -87,9 +100,31 @@
         Cancelar
       </button>
 
-      <button class="primary-button" type="button" (click)="createGroup()">
-        ✓ Crear Grupo
+      <button class="primary-button" type="button" [disabled]="saving()" (click)="createGroup()">
+        {{ saving() ? 'Creando...' : '✓ Crear Grupo' }}
       </button>
     </div>
+  </div>
+</div>
+
+<app-group-enroll-modal
+  *ngIf="enrollGroup()"
+  [groupCode]="enrollGroup()!.code"
+  (enrolled)="enrollGroup.set(null)"
+  (cancelled)="enrollGroup.set(null)">
+</app-group-enroll-modal>
+
+<div class="modal-backdrop" *ngIf="joinCodeResult() || joinCodeError()" (click)="closeJoinCodeResult()">
+  <div class="modal join-code-modal" (click)="$event.stopPropagation()">
+    <button class="modal-close" type="button" (click)="closeJoinCodeResult()">×</button>
+    <ng-container *ngIf="joinCodeResult() as jc; else joinCodeErrorTpl">
+      <h2>Código de invitación</h2>
+      <p class="description">Comparte este código con tus alumnos. Expira en 10 minutos.</p>
+      <div class="join-code-value">{{ jc.code }}</div>
+      <p class="description">Expira: {{ jc.expiresAt | date:'short' }}</p>
+    </ng-container>
+    <ng-template #joinCodeErrorTpl>
+      <p class="error-message">⚠ {{ joinCodeError() }}</p>
+    </ng-template>
   </div>
 </div>

@@ -25,7 +25,7 @@ export const routes: Routes = [
   {
     path: 'docentes',
     component: MainLayoutComponent,
-    canActivate: [authGuard],
+    canActivate: [authGuard, roleGuard(['DOCENTE'])],
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
 

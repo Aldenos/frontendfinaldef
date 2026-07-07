@@ -4,7 +4,14 @@ export interface Group {
   code: string;           // 'CC23', 'SI34'
   studentsCount?: number;
   collectionId?: number;  // Si está vinculado a una colección
+  collectionName?: string;
   createdAt?: string;
+}
+
+export interface GroupJoinCode {
+  code: string;
+  groupCode: string;
+  expiresAt: string;
 }
 
 export interface Student {

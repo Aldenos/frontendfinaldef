@@ -44,8 +44,20 @@
 .group-badge { background: #DFFBEA; color: #087A46; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 99px; }
 .group-name { color: #8A859E; font-size: 13px; margin: 0 0 4px; }
 .group-students { color: #8A859E; font-size: 13px; margin: 0 0 16px; }
-.btn-enroll { width: 100%; background: #7C5CBF; color: white; border: none; padding: 8px; border-radius: 8px; font-weight: 600; font-size: 13px; cursor: pointer; font-family: 'Ubuntu', sans-serif; }
+.btn-enroll { width: 100%; background: #7C5CBF; color: white; border: none; padding: 8px; border-radius: 8px; font-weight: 600; font-size: 13px; cursor: pointer; font-family: 'Ubuntu', sans-serif; margin-bottom: 8px; }
 .btn-enroll:hover { background: #9B7FD4; }
+.btn-code { width: 100%; background: white; color: #7C5CBF; border: 1.5px solid #7C5CBF; padding: 8px; border-radius: 8px; font-weight: 600; font-size: 13px; cursor: pointer; font-family: 'Ubuntu', sans-serif; }
+.btn-code:hover { background: #F0EBFF; }
+.btn-code:disabled { opacity: .6; cursor: default; }
+
+/* JOIN CODE MODAL */
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; z-index: 100; }
+.join-code-modal { background: white; border-radius: 14px; padding: 32px; max-width: 360px; width: 90%; text-align: center; position: relative; }
+.modal-close { position: absolute; top: 12px; right: 16px; background: none; border: none; font-size: 20px; color: #8A859E; cursor: pointer; }
+.join-code-modal h3 { margin: 0 0 8px; color: #372F4C; }
+.join-code-desc { color: #8A859E; font-size: 13px; margin: 0 0 20px; }
+.join-code-value { font-size: 32px; font-weight: 700; letter-spacing: 6px; color: #7C5CBF; background: #F0EBFF; border-radius: 10px; padding: 16px; margin-bottom: 12px; }
+.join-code-expires { color: #8A859E; font-size: 12px; margin: 0; }
 
 /* EMPTY */
 .empty-state { text-align: center; padding: 60px 40px; }

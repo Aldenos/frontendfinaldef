@@ -1,11 +1,12 @@
 import { Component, inject, signal, OnInit, computed } from '@angular/core';
+import { DatePipe } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CollectionService } from '../../../../core/services/collection.service';
 import { TopicService } from '../../../../core/services/topic.service';
 import { GroupService } from '../../../../core/services/group.service';
 import { Collection } from '../../../../shared/models/collection.model';
 import { Topic } from '../../../../shared/models/topic.model';
-import { Group } from '../../../../shared/models/group.model';
+import { Group, GroupJoinCode } from '../../../../shared/models/group.model';
 import { CollectionStatsComponent } from '../collection-stats/collection-stats.component';
 import { TopicCreateModalComponent } from '../../topics/topic-create-modal/topic-create-modal.component';
 import { GroupCreateModalComponent } from '../../groups/group-create-modal/group-create-modal.component';
@@ -14,7 +15,7 @@ import { GroupEnrollModalComponent } from '../../groups/group-enroll-modal/group
 @Component({
   selector: 'app-collection-detail',
   standalone: true,
-  imports: [CollectionStatsComponent, TopicCreateModalComponent, GroupCreateModalComponent, GroupEnrollModalComponent],
+  imports: [DatePipe, CollectionStatsComponent, TopicCreateModalComponent, GroupCreateModalComponent, GroupEnrollModalComponent],
   templateUrl: './collection-detail.html',
   styleUrl: './collection-detail.css',
 })
@@ -38,6 +39,13 @@ export class CollectionDetailComponent implements OnInit {
   showGroupModal = signal(false);
   enrollGroup = signal<Group | null>(null);
 
+  topicsError = signal('');
+  groupsError = signal('');
+
+  joinCodeResult = signal<GroupJoinCode | null>(null);
+  joinCodeError = signal('');
+  generatingCodeFor = signal<number | null>(null);
+
   totalActivities = computed(() => this.topics().reduce((acc, t) => acc + (t.activitiesCount ?? 0), 0));
 
   ngOnInit() {
@@ -51,17 +59,39 @@ export class CollectionDetailComponent implements OnInit {
       next: (col) => {
         this.collection.set(col);
         this.loading.set(false);
+        this.topicsError.set('');
         this.topicSvc.getByCollection(col.name).subscribe({
           next: (t) => this.topics.set(t),
-          error: () => {}
+          error: () => this.topicsError.set('No se pudieron cargar los temas.')
         });
       },
       error: () => { this.error.set('No se pudo cargar la colección.'); this.loading.set(false); }
     });
+    this.groupsError.set('');
     this.groupSvc.getMyGroups().subscribe({
       next: (g) => this.groups.set(g.filter(gr => gr.collectionId === this.collectionId())),
-      error: () => {}
+      error: () => this.groupsError.set('No se pudieron cargar los grupos.')
     });
+  }
+
+  generateJoinCode(group: Group) {
+    this.joinCodeError.set('');
+    this.generatingCodeFor.set(group.id);
+    this.groupSvc.generateJoinCode(group.code).subscribe({
+      next: (jc) => {
+        this.joinCodeResult.set(jc);
+        this.generatingCodeFor.set(null);
+      },
+      error: () => {
+        this.joinCodeError.set('No se pudo generar el código. Intenta de nuevo.');
+        this.generatingCodeFor.set(null);
+      }
+    });
+  }
+
+  closeJoinCodeResult() {
+    this.joinCodeResult.set(null);
+    this.joinCodeError.set('');
   }
 
   goToTopic(topicId: number) {

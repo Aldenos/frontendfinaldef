@@ -48,6 +48,10 @@
           <button class="btn-primary" (click)="showTopicModal.set(true)">+ Agregar Tema</button>
         </div>
 
+        @if (topicsError()) {
+          <div class="alert-error">{{ topicsError() }}</div>
+        }
+
         @if (topics().length === 0) {
           <div class="empty-state">
             <span class="empty-icon">📖</span>
@@ -85,6 +89,10 @@
           <button class="btn-primary" (click)="showGroupModal.set(true)">+ Nuevo Grupo</button>
         </div>
 
+        @if (groupsError()) {
+          <div class="alert-error">{{ groupsError() }}</div>
+        }
+
         @if (groups().length === 0) {
           <div class="empty-state">
             <span class="empty-icon">👥</span>
@@ -102,6 +110,12 @@
                 <p class="group-name">{{ group.name }}</p>
                 <p class="group-students">♙ {{ group.studentsCount ?? 0 }} estudiantes</p>
                 <button class="btn-enroll" (click)="enrollGroup.set(group)">📋 Inscribir alumnos</button>
+                <button
+                  class="btn-code"
+                  [disabled]="generatingCodeFor() === group.id"
+                  (click)="generateJoinCode(group)">
+                  🔑 {{ generatingCodeFor() === group.id ? 'Generando...' : 'Generar código' }}
+                </button>
               </div>
             }
           </div>
@@ -133,6 +147,22 @@
       (enrolled)="enrollGroup.set(null)"
       (cancelled)="enrollGroup.set(null)">
     </app-group-enroll-modal>
+  }
+
+  @if (joinCodeResult() || joinCodeError()) {
+    <div class="modal-overlay" (click)="closeJoinCodeResult()">
+      <div class="join-code-modal" (click)="$event.stopPropagation()">
+        <button class="modal-close" (click)="closeJoinCodeResult()">×</button>
+        @if (joinCodeResult(); as jc) {
+          <h3>Código de invitación</h3>
+          <p class="join-code-desc">Comparte este código con tus alumnos. Expira en 10 minutos.</p>
+          <div class="join-code-value">{{ jc.code }}</div>
+          <p class="join-code-expires">Expira: {{ jc.expiresAt | date:'short' }}</p>
+        } @else {
+          <div class="alert-error">{{ joinCodeError() }}</div>
+        }
+      </div>
+    </div>
   }
 
 </section>

@@ -1,48 +1,71 @@
 import { CommonModule } from '@angular/common';
-import { Component, signal } from '@angular/core';
+import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-
-interface StudentGroup {
-    code: string;
-    collection: string;
-    students: number;
-    status: 'Activo' | 'Nivel Crítico';
-}
+import { Router } from '@angular/router';
+import { CollectionService } from '../../../core/services/collection.service';
+import { GroupService } from '../../../core/services/group.service';
+import { Collection } from '../../../shared/models/collection.model';
+import { Group, GroupJoinCode } from '../../../shared/models/group.model';
+import { GroupEnrollModalComponent } from '../../course/groups/group-enroll-modal/group-enroll-modal.component';
 
 @Component({
     selector: 'app-student-dashboard',
     standalone: true,
-    imports: [CommonModule, FormsModule],
+    imports: [CommonModule, FormsModule, GroupEnrollModalComponent],
     templateUrl: './student-dashboard.html',
     styleUrl: './student-dashboard.css'
 })
-export class StudentDashboardComponent {
-    groups = signal<StudentGroup[]>([
-        {
-            code: 'CC23',
-            collection: 'Algoritmos',
-            students: 32,
-            status: 'Activo'
-    },
-    {
-        code: 'CC71',
-        collection: 'Estructura de Datos',
-        students: 28,
-        status: 'Activo'
-    },
-    {
-        code: 'CC72',
-        collection: 'Algoritmos',
-        students: 36,
-        status: 'Nivel Crítico'
-    }
-]);
-    collections = ['Algoritmos', 'Estructura de Datos', 'Base de Datos'];
+export class StudentDashboardComponent implements OnInit {
+    private collectionSvc = inject(CollectionService);
+    private groupSvc = inject(GroupService);
+    private router = inject(Router);
+
+    groups = signal<Group[]>([]);
+    collections = signal<Collection[]>([]);
+    loading = signal(true);
+    loadError = signal('');
+
     showModal = signal(false);
     groupCode = signal('');
-    selectedCollection = signal('');
-    studentsText = signal('');
+    groupName = signal('');
+    selectedCollectionId = signal<number | null>(null);
     duplicateError = signal(false);
+    saving = signal(false);
+    modalError = signal('');
+
+    enrollGroup = signal<Group | null>(null);
+    joinCodeResult = signal<GroupJoinCode | null>(null);
+    joinCodeError = signal('');
+    generatingCodeFor = signal<number | null>(null);
+
+    collectionNameById = computed(() => {
+        const map = new Map<number, string>();
+        for (const c of this.collections()) map.set(c.id, c.name);
+        return map;
+    });
+
+    ngOnInit(): void {
+        this.load();
+    }
+
+    load(): void {
+        this.loading.set(true);
+        this.loadError.set('');
+        this.collectionSvc.getMine().subscribe({
+            next: (cols) => this.collections.set(cols),
+            error: () => this.loadError.set('No se pudieron cargar tus colecciones.')
+        });
+        this.groupSvc.getMyGroups().subscribe({
+            next: (g) => { this.groups.set(g); this.loading.set(false); },
+            error: () => { this.loadError.set('No se pudieron cargar tus grupos.'); this.loading.set(false); }
+        });
+    }
+
+    collectionName(group: Group): string {
+        if (group.collectionName) return group.collectionName;
+        if (!group.collectionId) return 'Sin colección';
+        return this.collectionNameById().get(group.collectionId) ?? 'Sin colección';
+    }
 
     openModal(): void {
         this.showModal.set(true);
@@ -61,46 +84,66 @@ export class StudentDashboardComponent {
     }
 
     createGroup(): void {
-    const code = this.groupCode().trim().toUpperCase();
-    const collection = this.selectedCollection();
+        const code = this.groupCode().trim().toUpperCase();
+        const name = this.groupName().trim();
+        const collectionId = this.selectedCollectionId();
 
-    if (!code || !collection) return;
+        if (!code || !name || !collectionId) {
+            this.modalError.set('Nombre, código y colección son obligatorios.');
+            return;
+        }
+        if (this.existsGroup(code)) {
+            this.duplicateError.set(true);
+            return;
+        }
 
-    if (this.existsGroup(code)) {
-        this.duplicateError.set(true);
-        return;
+        this.modalError.set('');
+        this.saving.set(true);
+        this.groupSvc.createGroup({ name, code, collectionId }).subscribe({
+            next: (group) => {
+                this.groups.update(list => [...list, group]);
+                this.saving.set(false);
+                this.closeModal();
+            },
+            error: () => {
+                this.modalError.set('Error al crear el grupo. Verifica que el código no esté en uso.');
+                this.saving.set(false);
+            }
+        });
     }
 
-    this.groups.update(groups => [
-        ...groups,
-        {
-        code,
-        collection,
-        students: this.countStudents(this.studentsText()),
-        status: 'Activo'
+    generateJoinCode(group: Group): void {
+        this.joinCodeError.set('');
+        this.generatingCodeFor.set(group.id);
+        this.groupSvc.generateJoinCode(group.code).subscribe({
+            next: (jc) => { this.joinCodeResult.set(jc); this.generatingCodeFor.set(null); },
+            error: () => {
+                this.joinCodeError.set('No se pudo generar el código. Intenta de nuevo.');
+                this.generatingCodeFor.set(null);
+            }
+        });
     }
-    ]);
 
-    this.closeModal();
-}
+    closeJoinCodeResult(): void {
+        this.joinCodeResult.set(null);
+        this.joinCodeError.set('');
+    }
+
+    goToCollection(group: Group): void {
+        if (group.collectionId) {
+            this.router.navigate(['/docentes/colecciones', group.collectionId]);
+        }
+    }
 
     private existsGroup(code: string): boolean {
-    return this.groups().some(group => group.code === code.trim().toUpperCase());
-}
-
-    private countStudents(text: string): number {
-    if (!text.trim()) return 0;
-
-    return text
-    .split('\n')
-    .map(student => student.trim())
-    .filter(student => student.length > 0).length;
-}
+        return this.groups().some(group => group.code.trim().toUpperCase() === code.trim().toUpperCase());
+    }
 
     private clearForm(): void {
-    this.groupCode.set('');
-    this.selectedCollection.set('');
-    this.studentsText.set('');
-    this.duplicateError.set(false);
-}
+        this.groupCode.set('');
+        this.groupName.set('');
+        this.selectedCollectionId.set(null);
+        this.duplicateError.set(false);
+        this.modalError.set('');
+    }
 }
