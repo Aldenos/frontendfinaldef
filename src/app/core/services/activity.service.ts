@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Activity, FlashcardSet, CreateQuizDto } from '../../shared/models/activity.model';
+import { Activity, FlashcardSet, CreateQuizDto, FeynmanCheckResult } from '../../shared/models/activity.model';
 import { environment } from '../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
@@ -48,5 +48,9 @@ export class ActivityService {
     formData.append('topicId', String(topicId));
     types.forEach(t => formData.append('types', t));
     return this.http.post(`${environment.apiUrl}/ai/upload-activity`, formData);
+  }
+
+  checkFeynmanExplanation(topicId: number, explanation: string): Observable<FeynmanCheckResult> {
+    return this.http.post<FeynmanCheckResult>(`${environment.apiUrl}/ai/feynman-check`, { topicId, explanation });
   }
 }

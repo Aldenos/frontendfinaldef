@@ -62,3 +62,10 @@ export interface CreateFlashcardSetDto {
   generatedByAi?: boolean;
   flashcards: { front: string; back: string }[];
 }
+
+// Resultado del chequeo de una explicación estilo Feynman (evaluado por IA)
+export interface FeynmanCheckResult {
+  checks: { label: string; found: boolean }[];
+  feedback: string;
+  passed: boolean;
+}

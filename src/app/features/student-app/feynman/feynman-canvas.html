@@ -26,9 +26,14 @@
           [ngModel]="explanation()"
           (ngModelChange)="explanation.set($event)">
         </textarea>
+        @if (checkError()) {
+          <p class="error-message">⚠ {{ checkError() }}</p>
+        }
         <div class="canvas-footer">
-          <span class="muted small">{{ checksPassed() }}/{{ keyPoints().length }} puntos clave detectados</span>
-          <button class="finish-btn" [disabled]="explanation().trim().length < 20" (click)="finish()">Finalizar Explicación ✓</button>
+          <span class="muted small">La IA evaluará tu explicación al enviarla</span>
+          <button class="finish-btn" [disabled]="explanation().trim().length < 20 || checking()" (click)="finish()">
+            {{ checking() ? 'Evaluando con IA...' : 'Finalizar Explicación ✓' }}
+          </button>
         </div>
       </div>
     </div>
@@ -45,23 +50,21 @@
 
         <div class="card">
           <span class="card-label">Auto-Check de IA</span>
-          @for (c of checks(); track c.label) {
+          @for (c of checkResult()?.checks ?? []; track c.label) {
             <div class="check-row">
               <span [class.ok]="c.found" [class.pending]="!c.found">{{ c.found ? '✓' : '○' }}</span>
               <span>{{ c.label }}</span>
             </div>
           }
           <div class="ai-note">
-            @if (checksPassed() === keyPoints().length) {
-              ¡Excelente! Tu explicación cubre todos los puntos clave.
-            } @else {
-              Tu explicación es buena, pero asegúrate de mencionar los puntos pendientes.
-            }
+            {{ checkResult()?.feedback }}
           </div>
         </div>
       </div>
 
-      <span class="xp-earned">⚡ +20 XP de Feynman Canvas</span>
+      @if (checkResult()?.passed) {
+        <span class="xp-earned">⚡ +20 XP de Feynman Canvas</span>
+      }
       <button class="lobby-btn" (click)="goToLobby()">↩ Volver al Dashboard</button>
     </div>
   }

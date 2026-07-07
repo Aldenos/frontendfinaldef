@@ -121,6 +121,12 @@
 .check-row .ok { color: var(--lt-success); }
 .check-row .pending { color: var(--lt-text-muted); }
 
+.error-message {
+  color: #f87171;
+  font-size: 0.8rem;
+  margin: 8px 0 0;
+}
+
 .ai-note {
   margin-top: 12px;
   background: #1c1530;
