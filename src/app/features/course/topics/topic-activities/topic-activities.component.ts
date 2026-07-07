@@ -83,7 +83,7 @@ export class TopicActivitiesComponent implements OnInit {
     event.stopPropagation();
     this.actSvc.publishActivity(act).subscribe({
       next: (updated) => this.activities.update(list => list.map(a => a.id === updated.id ? updated : a)),
-      error: () => alert('Error al publicar la actividad.')
+      error: (e) => alert(e?.error?.message || 'Error al publicar la actividad.')
     });
   }
 
