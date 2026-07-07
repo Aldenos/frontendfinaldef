@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { Group, GroupJoinCode } from '../../shared/models/group.model';
+import { Group, GroupJoinCode, Student } from '../../shared/models/group.model';
 
 @Injectable({ providedIn: 'root' })
 export class GroupService {
@@ -10,6 +10,10 @@ export class GroupService {
 
   getMyGroups(): Observable<Group[]> {
     return this.http.get<Group[]>(`${environment.apiUrl}/groups/mine`);
+  }
+
+  getStudentsByGroupCode(code: string): Observable<Student[]> {
+    return this.http.get<Student[]>(`${environment.apiUrl}/groups/${code}/students`);
   }
 
   getGroupByCode(code: string): Observable<Group> {

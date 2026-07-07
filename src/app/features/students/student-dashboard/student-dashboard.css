@@ -226,6 +226,42 @@ textarea {
   text-align: center;
 }
 
+.roster {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #eee;
+}
+
+.roster-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.roster-list li {
+  display: flex;
+  flex-direction: column;
+  font-size: 13px;
+  background: #f8f8fa;
+  border-radius: 6px;
+  padding: 8px 10px;
+}
+
+.roster-name {
+  font-weight: 700;
+  color: #352d4b;
+}
+
+.roster-email {
+  color: #6b7280;
+  font-size: 12px;
+}
+
 .stats-button:disabled {
   opacity: .6;
   cursor: default;

@@ -44,6 +44,24 @@
         </button>
       </div>
 
+      <button class="link-button" type="button" (click)="toggleRoster(group)">
+        {{ expandedGroupId() === group.id ? 'Ocultar alumnos ▲' : 'Ver alumnos matriculados ▼' }}
+      </button>
+
+      <div class="roster" *ngIf="expandedGroupId() === group.id">
+        <p class="loading-text" *ngIf="loadingStudents()">Cargando alumnos...</p>
+        <p class="error-message" *ngIf="studentsError()">⚠ {{ studentsError() }}</p>
+        <p class="muted" *ngIf="!loadingStudents() && !studentsError() && groupStudents().length === 0">
+          Nadie se ha unido a este grupo todavía.
+        </p>
+        <ul class="roster-list" *ngIf="!loadingStudents() && groupStudents().length > 0">
+          <li *ngFor="let s of groupStudents()">
+            <span class="roster-name">{{ s.name }}</span>
+            <span class="roster-email">{{ s.email }}</span>
+          </li>
+        </ul>
+      </div>
+
       <button class="link-button" type="button" (click)="goToCollection(group)">
         Ver colección →
       </button>

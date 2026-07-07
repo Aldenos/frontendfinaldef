@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { CollectionService } from '../../../core/services/collection.service';
 import { GroupService } from '../../../core/services/group.service';
 import { Collection } from '../../../shared/models/collection.model';
-import { Group, GroupJoinCode } from '../../../shared/models/group.model';
+import { Group, GroupJoinCode, Student } from '../../../shared/models/group.model';
 import { GroupEnrollModalComponent } from '../../course/groups/group-enroll-modal/group-enroll-modal.component';
 
 @Component({
@@ -37,6 +37,11 @@ export class StudentDashboardComponent implements OnInit {
     joinCodeResult = signal<GroupJoinCode | null>(null);
     joinCodeError = signal('');
     generatingCodeFor = signal<number | null>(null);
+
+    expandedGroupId = signal<number | null>(null);
+    groupStudents = signal<Student[]>([]);
+    loadingStudents = signal(false);
+    studentsError = signal('');
 
     collectionNameById = computed(() => {
         const map = new Map<number, string>();
@@ -133,6 +138,21 @@ export class StudentDashboardComponent implements OnInit {
         if (group.collectionId) {
             this.router.navigate(['/docentes/colecciones', group.collectionId]);
         }
+    }
+
+    toggleRoster(group: Group): void {
+        if (this.expandedGroupId() === group.id) {
+            this.expandedGroupId.set(null);
+            return;
+        }
+        this.expandedGroupId.set(group.id);
+        this.studentsError.set('');
+        this.groupStudents.set([]);
+        this.loadingStudents.set(true);
+        this.groupSvc.getStudentsByGroupCode(group.code).subscribe({
+            next: (students) => { this.groupStudents.set(students); this.loadingStudents.set(false); },
+            error: () => { this.studentsError.set('No se pudo cargar el listado de alumnos.'); this.loadingStudents.set(false); }
+        });
     }
 
     private existsGroup(code: string): boolean {
