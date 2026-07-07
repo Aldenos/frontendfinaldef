@@ -44,7 +44,18 @@ export class StudentDashboardHomeComponent implements OnInit {
     this.paths().flatMap(p => p.conceptualGaps.filter(g => !g.resolved))
   );
 
-  weekDots = [0, 1, 2, 3, 4, 5, 6];
+  // Últimos 7 días (más antiguo primero); "filled" = tuvo al menos una actividad completada ese día.
+  weekDots = computed(() => {
+    const activeDays = new Set(this.timeline().map(t => new Date(t.date).toDateString()));
+    const days: { filled: boolean }[] = [];
+    const cursor = new Date();
+    cursor.setDate(cursor.getDate() - 6);
+    for (let i = 0; i < 7; i++) {
+      days.push({ filled: activeDays.has(cursor.toDateString()) });
+      cursor.setDate(cursor.getDate() + 1);
+    }
+    return days;
+  });
 
   ngOnInit(): void {
     this.activitySvc.getPending().subscribe({

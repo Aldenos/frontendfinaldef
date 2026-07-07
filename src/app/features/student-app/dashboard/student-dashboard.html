@@ -3,8 +3,8 @@
   <section class="daily-ritual card">
     <span class="card-label">DAILY RITUAL — ESTA SEMANA</span>
     <div class="week-row">
-      @for (d of weekDots; track d) {
-        <span class="week-dot" [class.filled]="d < 4"></span>
+      @for (d of weekDots(); track $index) {
+        <span class="week-dot" [class.filled]="d.filled"></span>
       }
     </div>
   </section>
