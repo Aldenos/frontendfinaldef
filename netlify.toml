@@ -10,7 +10,7 @@
 # Redirect all API calls to the backend (Render)
 [[redirects]]
   from = "/api/*"
-  to = "https://learntrack-backend-yxwi.onrender.com/api/:splat"
+  to = "https://learntrack-backend-e5by.onrender.com/api/:splat"
   status = 200
   force = true
 
